@@ -1,0 +1,13 @@
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+    100% { transform: translateY(0); }
+}
+
+.floating {
+    animation: float 3s ease-in-out infinite;
+}
+
+.glow {
+    text-shadow: 0 0 20px rgba(53, 9, 211, 0.466)
+}
