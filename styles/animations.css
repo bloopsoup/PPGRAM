@@ -4,7 +4,15 @@
     100% { transform: translateY(0); }
 }
 
-.floating {
+.floating1 {
+    animation: float 1s ease-in-out infinite;
+}
+
+.floating2 {
+    animation: float 2s ease-in-out infinite;
+}
+
+.floating3 {
     animation: float 3s ease-in-out infinite;
 }
 
