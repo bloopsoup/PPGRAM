@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Jost-Black';
+    src: url('../fonts/Jost-Black.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Jost-SemiBold';
+    src: url('../fonts/Jost-SemiBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
