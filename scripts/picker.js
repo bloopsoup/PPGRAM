@@ -3,7 +3,7 @@
  *  @author bloopsoup */
 class Picker {
     /** @type {string} */
-    static #url = `http://worldtimeapi.org/api/timezone/America/Los_Angeles`;
+    static #url = `https://worldtimeapi.org/api/timezone/America/Los_Angeles`;
     /** @type {string[]} */
     static #names = ['cHRIS - mR oSU kING', 'walter', 'mrs. until', 'poopsicle'];
     /** @type {string} */
