@@ -22,7 +22,7 @@ class Picker {
      *  @param {number} c - Math.
      *  @param {number} d - Math.
      *  @return {CallableFunction} The random function. */
-    static sfc32(a, b, c, d) {
+    static #sfc32(a, b, c, d) {
         return function() {
             a |= 0; b |= 0; c |= 0; d |= 0;
             const t = (a + b | 0) + d | 0;
@@ -38,15 +38,15 @@ class Picker {
     /** Gets a random number.
      *  @param {number} seed - The seed.
      *  @returns {number} The random number. */
-    static getRandomNumber(seed) {
-        const rand = Picker.sfc32(0x9E3779B9, 0x243F6A88, 0xB7E15162, seed);
+    static #getRandomNumber(seed) {
+        const rand = Picker.#sfc32(0x9E3779B9, 0x243F6A88, 0xB7E15162, seed);
         for (let i = 0; i < 15; i++) rand();
         return Math.floor(rand() * 4);
     }
 
     /** Displays the recently picked names in the history section.
      *  @param {string[]} names - The names. */
-    static displayHistory(names) {
+    static #displayHistory(names) {
         const historyDisplay = document.getElementById(Picker.#historyDisplayID);
         if (historyDisplay === null) return;
 
@@ -62,27 +62,27 @@ class Picker {
         });
     }
 
+    /** Displays text inside an element retrieved by ID.
+     *  @param {string} id - The ID of the element displaying the text.
+     *  @param {string} text - The text to show. */
+    static #displayText(id, text) {
+        const display = document.getElementById(id);
+        if (display === null) return;
+        display.textContent = text;
+    }
+
     /** Initializes the page. */
     static async initialize() {
         const data = await (await fetch(this.#url)).json();
         const currentTime = new Date(data.datetime);
-        const daysAD = data.day_of_year + currentTime.getFullYear() * 365;
+        const days = data.day_of_year + currentTime.getFullYear() * 365;
+        const todayName = Picker.#names[Picker.#getRandomNumber(days)];
+        const previousNames = Array.from({length: 5}, (_, i) => Picker.#names[Picker.#getRandomNumber(days - i - 1)]);
 
-        const statusDisplay = document.getElementById(this.#statusDisplayID);
-        if (statusDisplay === null) return;
-        statusDisplay.textContent = 'victim';
-
-        const dateDisplay = document.getElementById(this.#dateDisplayID);
-        if (dateDisplay === null) return;
-        dateDisplay.textContent = currentTime.toLocaleString();
-
-        const todayName = Picker.#names[Picker.getRandomNumber(daysAD)];
-        const previousNames = Array.from({length: 5}, (_, i) => Picker.#names[Picker.getRandomNumber(daysAD - i - 1)]);
-        
-        const pickedDisplay = document.getElementById(Picker.#pickedDisplayID);
-        if (pickedDisplay === null) return;
-        pickedDisplay.textContent = todayName;
-        Picker.displayHistory(previousNames);
+        Picker.#displayText(this.#statusDisplayID, 'victim');
+        Picker.#displayText(this.#dateDisplayID, currentTime.toLocaleString());
+        Picker.#displayText(this.#pickedDisplayID, todayName);
+        Picker.#displayHistory(previousNames);
     }
 }
 
