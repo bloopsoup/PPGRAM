@@ -45,6 +45,20 @@ section {
     padding: 50px 0 50px 0;
 }
 
+section.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+section.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
 hr {
     width: 100%;
     border: none;
@@ -58,8 +72,20 @@ h1, h2, a {
     font-size: 25px;
 }
 
-p {
+h3 {
     width: 100%;
     font-size: 45px;
     text-shadow: 0 0 20px rgba(53, 9, 211, 0.466);
+}
+
+p {
+    width: 100%;
+    font-size: 25px;
+}
+
+figure.pie {
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background-image: conic-gradient(red 0% 100%);
 }
