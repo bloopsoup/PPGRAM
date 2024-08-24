@@ -47,7 +47,7 @@ class Picker {
     static #displayHistory(names) {
         const historyDisplay = document.getElementById(Picker.#historyDisplayID);
         if (historyDisplay === null) return;
-        while (historyDisplay.firstChild) historyDisplay.removeChild(historyDisplay.firstChild);
+        historyDisplay.replaceChildren();
 
         const header = document.createElement('h2');
         header.textContent = 'previous victims';
