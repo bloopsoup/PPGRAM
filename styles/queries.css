@@ -1,9 +1,17 @@
 @media screen and (min-width: 1000px) {
+    div.row {
+        flex-direction: row;
+    }
+
     h1, h2, p {
         font-size: 50px;
     }
 
     h3 {
         font-size: 100px;
+    }
+
+    figure.pie {
+        width: 350px;
     }
 }

@@ -20,7 +20,7 @@ body {
     background: linear-gradient(90deg, rgba(45, 5, 58, 1) 0%, rgba(9, 4, 54, 1) 100%);
 }
 
-navbar {
+nav {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -45,16 +45,18 @@ section {
     padding: 50px 0 50px 0;
 }
 
-section.column {
+div.column {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    padding: 20px;
 }
 
-section.row {
+div.row {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -84,8 +86,8 @@ p {
 }
 
 figure.pie {
-    width: 500px;
-    height: 500px;
+    width: 250px;
+    aspect-ratio: 1 / 1;
     border-radius: 50%;
     background-image: conic-gradient(red 0% 100%);
 }
