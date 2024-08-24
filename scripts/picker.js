@@ -57,7 +57,7 @@ class Picker {
         names.forEach((name, i) => {
             const p = document.createElement('p');
             p.textContent = `-${i+1} ${name}`;
-            p.classList.add(`floating${Math.floor(Math.random() * 3) + 1}`, 'glow');
+            p.classList.add(`floating${Math.floor(Math.random() * 3) + 1}`);
             historyDisplay.appendChild(p);
         });
     }

@@ -15,7 +15,3 @@
 .floating3 {
     animation: float 3s ease-in-out infinite;
 }
-
-.glow {
-    text-shadow: 0 0 20px rgba(53, 9, 211, 0.466)
-}
