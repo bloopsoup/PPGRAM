@@ -52,19 +52,7 @@ hr {
     box-shadow: 0 0 20px rgb(150, 69, 243);
 }
 
-h1 {
-    width: 100%;
-    font-family: 'Jost-SemiBold';
-    font-size: 25px;
-}
-
-h2 {
-    width: 100%;
-    font-family: 'Jost-SemiBold';
-    font-size: 25px;
-}
-
-a {
+h1, h2, a {
     width: 100%;
     font-family: 'Jost-SemiBold';
     font-size: 25px;

@@ -2,8 +2,6 @@
  *  @author gitdoge
  *  @author bloopsoup */
 class Picker {
-    /** @type {string} */
-    static #url = `https://worldtimeapi.org/api/timezone/America/Los_Angeles`;
     /** @type {string[]} */
     static #names = ['cHRIS - mR oSU kING', 'walter', 'mrs. until', 'poopsicle'];
     /** @type {string} */
@@ -49,6 +47,7 @@ class Picker {
     static #displayHistory(names) {
         const historyDisplay = document.getElementById(Picker.#historyDisplayID);
         if (historyDisplay === null) return;
+        while (historyDisplay.firstChild) historyDisplay.removeChild(historyDisplay.firstChild);
 
         const header = document.createElement('h2');
         header.textContent = 'previous victims';
@@ -57,7 +56,6 @@ class Picker {
         names.forEach((name, i) => {
             const p = document.createElement('p');
             p.textContent = `-${i+1} ${name}`;
-            p.classList.add(`floating${Math.floor(Math.random() * 3) + 1}`);
             historyDisplay.appendChild(p);
         });
     }
@@ -71,19 +69,21 @@ class Picker {
         display.textContent = text;
     }
 
-    /** Initializes the page. */
-    static async initialize() {
-        const data = await (await fetch(this.#url)).json();
-        const currentTime = new Date(data.datetime);
-        const days = data.day_of_year + currentTime.getFullYear() * 365;
+    /** Updates the page. */
+    static update() {
+        const now = new Date();
+        const yearStart = new Date(now.getFullYear(), 0, 0);
+        const dayOfYear = Math.floor((now - yearStart) / (24 * 60 * 60 * 1000));
+        const days = dayOfYear + now.getFullYear() * 365;
+
         const todayName = Picker.#names[Picker.#getRandomNumber(days)];
         const previousNames = Array.from({length: 5}, (_, i) => Picker.#names[Picker.#getRandomNumber(days - i - 1)]);
 
         Picker.#displayText(this.#statusDisplayID, 'victim');
-        Picker.#displayText(this.#dateDisplayID, currentTime.toLocaleString());
+        Picker.#displayText(this.#dateDisplayID, now.toLocaleString());
         Picker.#displayText(this.#pickedDisplayID, todayName);
         Picker.#displayHistory(previousNames);
     }
 }
 
-Picker.initialize();
+setInterval(() => Picker.update(), 1000);
