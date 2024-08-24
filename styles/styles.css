@@ -17,18 +17,22 @@ body {
     width: 80%;
 
     margin: 0 auto;
-    background: linear-gradient(90deg, rgba(45,5,58,1) 0%, rgba(9,4,54,1) 100%);
+    background: linear-gradient(90deg, rgba(45, 5, 58, 1) 0%, rgba(9, 4, 54, 1) 100%);
 }
 
 navbar {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 80%;
+    width: 100%;
 
     position: absolute;
-    top: 30px;
+    top: 0px;
+    padding: 15px 10% 15px 10%;
+    border-bottom: 5px solid rgba(9, 4, 54, 1);
+    background: linear-gradient(90deg, rgb(79, 26, 90) 0%, rgb(19, 12, 77) 100%);
+    box-shadow: 0 4px 20px rgba(9, 4, 54, 1);
 }
 
 section {
@@ -55,6 +59,12 @@ h1 {
 }
 
 h2 {
+    width: 100%;
+    font-family: 'Jost-SemiBold';
+    font-size: 25px;
+}
+
+a {
     width: 100%;
     font-family: 'Jost-SemiBold';
     font-size: 25px;
