@@ -70,6 +70,18 @@ class Picker {
         return dayOfYear + date.getFullYear() * 365;
     }
 
+    /** Gets the probability of achieving this distribution.
+     *  {@link https://en.wikipedia.org/wiki/Stirling%27s_approximation Stirling's Approximation}
+     *  @param {Object<string, number>} counts - The counts.
+     *  @param {number} total - The total.
+     *  @returns {number} The probability. */
+    static #getProbability(counts, total) {
+        const lgamma = num => num * Math.log(num) - num + 0.5 * Math.log(2 * Math.PI * num);
+        let coefficient = lgamma(total);
+        for (const name in counts) coefficient -= lgamma(counts[name]);
+        return Math.exp(coefficient - total * Math.log(this.#names.length)) * 100;
+    }
+
     /** Displays text inside an element retrieved by ID.
      *  @param {string} id - The ID of the element displaying the text.
      *  @param {string} text - The text to show. */
@@ -114,8 +126,13 @@ class Picker {
         if (pieDisplay === null) return;
         pieDisplay.replaceChildren();
 
-        const header = document.createElement('h2');
+        let header = document.createElement('h2');
         header.textContent = `stats (${names.length} total)`;
+        statsDisplay.appendChild(header);
+
+        const probability = Picker.#getProbability(counts, names.length);
+        header = document.createElement('h2');
+        header.textContent = `sus meter ${probability.toFixed(2)}%`;
         statsDisplay.appendChild(header);
 
         const figure = document.createElement('figure');
