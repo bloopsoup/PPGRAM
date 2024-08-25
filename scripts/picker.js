@@ -150,7 +150,7 @@ class Picker {
         Picker.#displayText(this.#statusDisplayID, 'victim');
         Picker.#displayText(this.#dateDisplayID, now.toLocaleString());
         Picker.#displayText(this.#pickedDisplayID, todayName);
-        Picker.#displayRecent(previousNames.slice(-5));
+        Picker.#displayRecent(previousNames.slice(0, 5));
         Picker.#displayStats(previousNames);
     }
 }
