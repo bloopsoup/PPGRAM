@@ -17,6 +17,9 @@ class Picker {
     static #statsDisplayID = 'stats'
     /** @type {string} */
     static #pieDisplayID = 'pie'
+    /** (1 - Value) is the p value, .95 = .05 p value
+     *  @type {number} */
+    static #susThreshold = .95
 
     /** Magic black box math to make good random stuff.
      *  {@link https://stackoverflow.com/questions/521295/seeding-the-random-number-generator-in-javascript StackOverflow}
@@ -82,6 +85,95 @@ class Picker {
         return Math.exp(coefficient - total * Math.log(this.#names.length)) * 100;
     }
 
+    /**
+     * Computes the gamma function using the Lanczos approximation.
+     * @param {number} z - The input value for the gamma function.
+     * @returns {number} The gamma function value.
+     */
+    static #gamma(z) {
+        const g = 7;
+        const p = [
+            0.99999999999980993, 676.5203681218851, -1259.1392167224028,
+            771.32342877765313, -176.61502916214059, 12.507343278686905,
+            -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7
+        ];
+
+        if (z < 0.5) {
+            return Math.PI / (Math.sin(Math.PI * z) * Picker.#gamma(1 - z));
+        } else {
+            z -= 1;
+            let x = p[0];
+            for (let i = 1; i < g + 2; i++) {
+                x += p[i] / (z + i);
+            }
+            const t = z + g + 0.5;
+            return Math.sqrt(2 * Math.PI) * Math.pow(t, z + 0.5) * Math.exp(-t) * x;
+        }
+    }
+
+    /**
+     * Computes the lower incomplete gamma function.
+     * @param {number} s - The shape parameter of the gamma function.
+     * @param {number} x - The upper limit of integration.
+     * @returns {number} The value of the lower incomplete gamma function.
+     */
+    static #lowerIncompleteGamma(s, x) {
+        let sum = 1 / s;
+        let term = 1 / s;
+
+        for (let n = 1; n < 100; n++) {
+            term *= x / (s + n);
+            sum += term;
+            if (term < sum * 1e-15) {
+                break;
+            }
+        }
+
+        return sum * Math.exp(-x + s * Math.log(x));
+    }
+
+    /**
+     * Computes the chi-square cumulative distribution function (CDF).
+     * @param {number} x - The chi-square statistic.
+     * @param {number} k - The degrees of freedom.
+     * @returns {number} The value of the CDF.
+     */
+    static #chiSquareCDF(x, k) {
+        if (x < 0 || k <= 0) {
+            return 0;
+        }
+        return Picker.#lowerIncompleteGamma(k / 2, x / 2) / Picker.#gamma(k / 2);
+    }
+
+    /**
+     * Computes the chi-square p-value.
+     * @param {number} chiSquareStatistic - The chi-square statistic.
+     * @param {number} degreesOfFreedom - The degrees of freedom (number of categories minus 1).
+     * @returns {number} The p-value.
+     */
+    static #chiSquaredDistribution(chiSquareStatistic, degreesOfFreedom) {
+        return 1 - Picker.#chiSquareCDF(chiSquareStatistic, degreesOfFreedom);
+    }
+
+    /**
+     * Gets the p value given counts of each item and weights of each item
+     * @param {number[]} - The integer counts of each category
+     * @param {number[]} - The normalized weight of each category
+     * 
+     */
+    static #getSignificance(counts, weights) {
+        const total = counts.reduce((a, b) => a + b, 0)
+        const chiSquareSatistic = counts.reduce((chiSq, observed, i) => {
+            const expected = weights[i] * total;
+            return chiSq + Math.pow(observed - expected, 2) / expected;
+        }, 0);
+        const pValue = Picker.#chiSquaredDistribution(chiSquareSatistic, counts.length - 1)
+        
+        return pValue
+    }
+
+
+
     /** Displays text inside an element retrieved by ID.
      *  @param {string} id - The ID of the element displaying the text.
      *  @param {string} text - The text to show. */
@@ -130,9 +222,11 @@ class Picker {
         header.textContent = `stats (${names.length} total)`;
         statsDisplay.appendChild(header);
 
-        const probability = 100 - Picker.#getProbability(counts, names.length);
+        const weights = Array.from({ length: Picker.#names.length }, () => 1.0 / Picker.#names.length)
+        const pValue = Picker.#getSignificance(Object.keys(counts).map((key) => counts[key]), weights)
+        const sus = ((1 - pValue) / Picker.#susThreshold) * 100;
         header = document.createElement('h2');
-        header.textContent = `sus meter ${probability.toFixed(2)}%`;
+        header.textContent = `sus meter ${sus.toFixed(2)}% (p=${pValue.toFixed(2)})`;
         statsDisplay.appendChild(header);
 
         const figure = document.createElement('figure');
