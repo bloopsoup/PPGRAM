@@ -130,7 +130,7 @@ class Picker {
         header.textContent = `stats (${names.length} total)`;
         statsDisplay.appendChild(header);
 
-        const probability = 1 - Picker.#getProbability(counts, names.length);
+        const probability = 100 - Picker.#getProbability(counts, names.length);
         header = document.createElement('h2');
         header.textContent = `sus meter ${probability.toFixed(2)}%`;
         statsDisplay.appendChild(header);
