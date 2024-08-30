@@ -252,16 +252,16 @@ class Picker {
     /** Updates the page. */
     static update() {
         const now = new Date();
-        const days = this.#getDays(now);
-        const total = days - this.#getDays(this.#start) - 1;
+        const days = this.#getDays(new Date(now.getTime() + 60 * 60 * 1000));
+        const total = days - this.#getDays(this.#start);
 
         const todayName = Picker.#getRandomName(days);
-        const previousNames = Array.from({length: total}, (_, i) => Picker.#getRandomName(days - i - 1));
+        const previousNames = Array.from({length: total}, (_, i) => Picker.#getRandomName(days - i));
 
         Picker.#displayText(this.#statusDisplayID, 'victim');
         Picker.#displayText(this.#dateDisplayID, now.toLocaleString());
         Picker.#displayText(this.#pickedDisplayID, todayName);
-        Picker.#displayRecent(previousNames.slice(0, 5));
+        Picker.#displayRecent(previousNames.slice(1, 6));
         Picker.#displayStats(previousNames);
     }
 }
