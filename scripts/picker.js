@@ -22,6 +22,16 @@ class Picker {
     /** @type {number} */
     static #susThreshold = .95
 
+    /** Whether daylight savings is occurring on the given date.
+     *  {@link https://stackoverflow.com/a/30280636 StackOverflow}
+     *  @param {Date} date 
+     *  @returns The result. */
+    static #isDST(date) {
+        let jan = new Date(date.getFullYear(), 0, 1).getTimezoneOffset();
+        let jul = new Date(date.getFullYear(), 6, 1).getTimezoneOffset();
+        return Math.max(jan, jul) !== date.getTimezoneOffset();    
+    }
+
     /** Converts a date into the number of total days.
      *  @param {Date} date - The date. */
     static #getDays(date) {
@@ -108,7 +118,8 @@ class Picker {
     /** Updates the page. */
     static update() {
         const now = new Date();
-        const days = this.#getDays(new Date(now.getTime() + 60 * 60 * 1000));
+        const adjustedNow = Picker.#isDST(now) ? new Date(now.getTime() + (60 * 60 * 1000)) : now
+        const days = this.#getDays(adjustedNow);
         const total = days - this.#getDays(this.#start);
 
         const todayName = Randumb.getChoice(this.#names, days);
