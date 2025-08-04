@@ -1,10 +1,8 @@
-import Randumb from './randumb.js'
+import {Calendar, Stacked} from './common/index.js';
 
 /** Picks victims in a totally fair and unbiased way.
  *  @author gitdoge (initial version) and bloopsoup */
 class Picker {
-    /** @type {Date} */
-    static #start = new Date(2024, 6, 31)
     /** @type {string[]} */
     static #names = ['cHRIS - mR oSU kING', 'walter', 'mrs. until', 'poopsicle'];
     /** @type {string} */
@@ -21,24 +19,6 @@ class Picker {
     static #pieDisplayID = 'pie'
     /** @type {number} */
     static #susThreshold = .95
-
-    /** Whether daylight savings is occurring on the given date.
-     *  {@link https://stackoverflow.com/a/30280636 StackOverflow}
-     *  @param {Date} date 
-     *  @returns The result. */
-    static #isDST(date) {
-        let jan = new Date(date.getFullYear(), 0, 1).getTimezoneOffset();
-        let jul = new Date(date.getFullYear(), 6, 1).getTimezoneOffset();
-        return Math.max(jan, jul) !== date.getTimezoneOffset();    
-    }
-
-    /** Converts a date into the number of total days.
-     *  @param {Date} date - The date. */
-    static #getDays(date) {
-        const yearStart = new Date(date.getFullYear(), 0, 0);
-        const dayOfYear = Math.floor((date - yearStart) / (24 * 60 * 60 * 1000));
-        return dayOfYear + date.getFullYear() * 365;
-    }
 
     /** Displays text inside an element retrieved by ID.
      *  @param {string} id - The ID of the element displaying the text.
@@ -89,7 +69,7 @@ class Picker {
         statsDisplay.appendChild(header);
 
         const weights = Array.from({ length: Picker.#names.length }, () => 1.0 / Picker.#names.length)
-        const pValue = Randumb.getSignificance(Object.keys(counts).map((key) => counts[key]), weights)
+        const pValue = Stacked.getSignificance(Object.keys(counts).map((key) => counts[key]), weights)
         const sus = ((1 - pValue) / Picker.#susThreshold) * 100;
         header = document.createElement('h2');
         header.textContent = `sus meter ${sus.toFixed(2)}% (p=${pValue.toFixed(2)})`;
@@ -104,11 +84,11 @@ class Picker {
         Object.keys(counts).sort((a, b) => counts[b] - counts[a]).forEach((name, i) => {
             const p = document.createElement('p');
             p.textContent = `${name} ${counts[name]}`;
-            p.style.color = Randumb.getColor(Math.floor(i + current));
+            p.style.color = Stacked.getColor(Math.floor(i + current));
             statsDisplay.appendChild(p);
 
             const percent = (counts[name] / names.length) * 100;
-            colors.push(`${Randumb.getColor(Math.floor(i + current))} ${current}% ${current + percent}%`);
+            colors.push(`${Stacked.getColor(Math.floor(i + current))} ${current}% ${current + percent}%`);
             current += percent;
         });
 
@@ -118,12 +98,8 @@ class Picker {
     /** Updates the page. */
     static update() {
         const now = new Date();
-        const adjustedNow = Picker.#isDST(now) ? new Date(now.getTime() + (60 * 60 * 1000)) : now
-        const days = this.#getDays(adjustedNow);
-        const total = days - this.#getDays(this.#start);
-
-        const todayName = Randumb.getChoice(this.#names, days);
-        const previousNames = Array.from({length: total}, (_, i) => Randumb.getChoice(this.#names, days - i));
+        const todayName = Stacked.getChoice(this.#names, Calendar.totalTodayDays);
+        const previousNames = Array.from({length: Calendar.totalElapsedDays}, (_, i) => Stacked.getChoice(this.#names, Calendar.totalTodayDays - i));
 
         Picker.#displayText(this.#statusDisplayID, 'victim');
         Picker.#displayText(this.#dateDisplayID, now.toLocaleString());

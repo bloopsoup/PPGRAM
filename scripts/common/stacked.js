@@ -1,6 +1,6 @@
 /** Seeded RNG management.
  *  @author bloopsoup */
-export default class Randumb {
+export default class Stacked {
     /** Magic black box math to make good random stuff.
      *  {@link https://stackoverflow.com/questions/521295/seeding-the-random-number-generator-in-javascript StackOverflow}
      *  {@link https://pracrand.sourceforge.net/ PractRand}
@@ -8,9 +8,9 @@ export default class Randumb {
      *  @param {number} b - Math.
      *  @param {number} c - Math.
      *  @param {number} d - Math.
-     *  @return {CallableFunction} The random function. */
+     *  @return {() => number} The random function. */
     static #sfc32(a, b, c, d) {
-        return function() {
+        return () => {
             a |= 0; b |= 0; c |= 0; d |= 0;
             const t = (a + b | 0) + d | 0;
             d = d + 1 | 0;
@@ -19,7 +19,7 @@ export default class Randumb {
             c = (c << 21 | c >>> 11);
             c = c + t | 0;
             return (t >>> 0) / 4294967296;
-        }
+        };
     }
 
     /** Computes the gamma function using the Lanczos approximation.
@@ -62,7 +62,7 @@ export default class Randumb {
      *  @returns {number} The value of the CDF. */
     static #chiSquareCDF(x, k) {
         if (x < 0 || k <= 0) return 0;
-        return Randumb.#lowerIncompleteGamma(k / 2, x / 2) / Randumb.#gamma(k / 2);
+        return this.#lowerIncompleteGamma(k / 2, x / 2) / this.#gamma(k / 2);
     }
 
     /** Computes the chi-square p-value.
@@ -70,7 +70,7 @@ export default class Randumb {
      *  @param {number} degreesOfFreedom - The degrees of freedom (number of categories minus 1).
      *  @returns {number} The p-value. */
     static #chiSquaredDistribution(chiSquareStatistic, degreesOfFreedom) {
-        return 1 - Randumb.#chiSquareCDF(chiSquareStatistic, degreesOfFreedom);
+        return 1 - this.#chiSquareCDF(chiSquareStatistic, degreesOfFreedom);
     }
 
     /** Picks a random element from a list.
@@ -79,7 +79,7 @@ export default class Randumb {
      *  @param {number} seed - The seed.
      *  @returns {string} The chosen element. */
     static getChoice(lst, seed) {
-        const rand = Randumb.#sfc32(0x9E3779B9, 0x243F6A88, 0xB7E15162, seed);
+        const rand = this.#sfc32(0x9E3779B9, 0x243F6A88, 0xB7E15162, seed);
         for (let i = 0; i < 15; i++) rand();
         return lst[Math.floor(rand() * lst.length)];
     }
@@ -89,7 +89,7 @@ export default class Randumb {
      *  @returns {string} A random color. */
     static getColor(seed) {
         const rgb = [];
-        const rand = Randumb.#sfc32(0x9E3779B9, 0x243F6A88, 0xB7E15162, seed);
+        const rand = this.#sfc32(0x9E3779B9, 0x243F6A88, 0xB7E15162, seed);
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 15; j++) rand();
             rgb.push(Math.floor(rand() * 255));
@@ -106,7 +106,7 @@ export default class Randumb {
             const expected = weights[i] * total;
             return chiSq + Math.pow(observed - expected, 2) / expected;
         }, 0);
-        const pValue = Randumb.#chiSquaredDistribution(chiSquareStatistic, counts.length - 1)
+        const pValue = this.#chiSquaredDistribution(chiSquareStatistic, counts.length - 1)
         return pValue
     }
 }
