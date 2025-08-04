@@ -5,14 +5,13 @@ export default class Calendar {
     static #millisecondsInHour = 60 * 60 * 1000
     /** @type {number} */
     static #millisecondsInDay = 24 * this.#millisecondsInHour
-
     /** @type {Date} */
     static #start = new Date(2024, 6, 31)
 
     /** Whether daylight savings is occurring on the given date.
      *  {@link https://stackoverflow.com/a/30280636 StackOverflow}
-     *  @param {Date} date 
-     *  @returns The result. */
+     *  @param {Date} date - The date.
+     *  @returns {boolean} The result. */
     static #hasDaylightSavings(date) {
         let janOffset = new Date(date.getFullYear(), 0, 1).getTimezoneOffset();
         let julOffset = new Date(date.getFullYear(), 6, 1).getTimezoneOffset();
@@ -36,6 +35,6 @@ export default class Calendar {
     /** @returns {number} The total number of days until today. */
     static get totalTodayDays() { return this.#getTotalDays(this.#today); }
 
-    /** @return {number} The total number of elapsed days. */
+    /** @returns {number} The total number of elapsed days. */
     static get totalElapsedDays() { return this.#getTotalDays(this.#today) - this.#getTotalDays(this.#start); }
 }

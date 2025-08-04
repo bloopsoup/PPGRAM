@@ -8,7 +8,7 @@ export default class Stacked {
      *  @param {number} b - Math.
      *  @param {number} c - Math.
      *  @param {number} d - Math.
-     *  @return {() => number} The random function. */
+     *  @returns {() => number} The random function. */
     static #sfc32(a, b, c, d) {
         return () => {
             a |= 0; b |= 0; c |= 0; d |= 0;
@@ -32,7 +32,7 @@ export default class Stacked {
             771.32342877765313, -176.61502916214059, 12.507343278686905,
             -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7
         ];
-        if (z < 0.5) return Math.PI / (Math.sin(Math.PI * z) * Randumb.#gamma(1 - z));
+        if (z < 0.5) return Math.PI / (Math.sin(Math.PI * z) * this.#gamma(1 - z));
         
         z -= 1;
         let x = p[0];
@@ -99,7 +99,8 @@ export default class Stacked {
 
     /** Gets the p value given counts of each item and weights of each item
      *  @param {number[]} counts - The integer counts of each category.
-     *  @param {number[]} weights - The normalized weight of each category. */
+     *  @param {number[]} weights - The normalized weight of each category.
+     *  @returns {number} The significance. */
     static getSignificance(counts, weights) {
         const total = counts.reduce((a, b) => a + b, 0)
         const chiSquareStatistic = counts.reduce((chiSq, observed, i) => {
