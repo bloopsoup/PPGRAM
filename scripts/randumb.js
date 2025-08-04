@@ -102,11 +102,11 @@ export default class Randumb {
      *  @param {number[]} weights - The normalized weight of each category. */
     static getSignificance(counts, weights) {
         const total = counts.reduce((a, b) => a + b, 0)
-        const chiSquareSatistic = counts.reduce((chiSq, observed, i) => {
+        const chiSquareStatistic = counts.reduce((chiSq, observed, i) => {
             const expected = weights[i] * total;
             return chiSq + Math.pow(observed - expected, 2) / expected;
         }, 0);
-        const pValue = Randumb.#chiSquaredDistribution(chiSquareSatistic, counts.length - 1)
+        const pValue = Randumb.#chiSquaredDistribution(chiSquareStatistic, counts.length - 1)
         return pValue
     }
 }
