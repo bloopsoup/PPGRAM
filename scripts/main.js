@@ -1,5 +1,5 @@
 import { Calendar, Counter, Stacked } from './common/index.js';
-import { PieChart, Stats, Text, TextList } from './display/index.js';
+import * as display from "./display/index.js";
 
 /** Picks victims in a totally fair and unbiased way.
  *  @author gitdoge (initial version) and bloopsoup */
@@ -16,12 +16,13 @@ class Main {
         const sus = ((1 - pValue) / .95) * 100;
 
         // Display the elements
-        new Text('status').display('victim');
-        new Text('date').display(new Date().toLocaleString());
-        new Text('picked').display(chosenName);
-        new TextList('recent').display('previous victims', names.slice(1, 6));
-        new Stats('stats').display([`stats (${names.length} total)`, `sus meter ${sus.toFixed(2)}% (p=${pValue.toFixed(2)})`], counter);
-        new PieChart('pie').display(counter);
+        document.querySelector('pp-pick')?.setAttribute('name', chosenName);
+        document.querySelector('pp-pick')?.setAttribute('date', new Date().toLocaleString());
+        document.querySelector('pp-list')?.setAttribute('name', 'previous victims');
+        document.querySelector('pp-list')?.setAttribute('items', names.slice(1, 6).join(','));
+        document.querySelector('pp-stats')?.setAttribute('headers', [`stats (${names.length} total)`, `sus meter ${sus.toFixed(2)}% (p=${pValue.toFixed(2)})`].join(','));
+        document.querySelector('pp-stats')?.setAttribute('items', names.join(','));
+        document.querySelector('pp-pie-chart')?.setAttribute('items', names.join(','));
     }
 }
 
