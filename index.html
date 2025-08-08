@@ -16,33 +16,35 @@
 </head>
 
 <body>
-    <nav>
+    <header>
         <h1>PPGRAM%</h1>
         <a href="https://github.com/bloopsoup/PPGRAM" target="_blank" style="text-align: right;">GITHUB</a>
-    </nav>
+    </header>
 
     <main>
-        <h2 id="picked-status">loading...</h2>
-        <h3 style="color: rgb(255, 202, 237);" class="floating" id="picked-name"></h3>
-        <h2 style="text-align: right;" id="picked-date"></h2>
+        <section>
+            <h2 id="picked-status">loading...</h2>
+            <h3 style="color: rgb(255, 202, 237);" class="floating" id="picked-name"></h3>
+            <h2 style="text-align: right;" id="picked-date"></h2>
+        </section>
+
+        <hr>
+
+        <section>
+            <p-stats id="stats-recent"></p-stats>
+        </section>
+    
+        <hr>
+
+        <section>
+            <div class="row">
+                <p-stats id="stats-summary" summarize></p-stats>
+                <p-pie-chart id="stats-pie"></pp-pie-chart>
+            </div>
+        </section>
+
+        <hr>
     </main>
-
-    <hr>
-
-    <section>
-        <p-stats id="stats-recent"></p-stats>
-    </section>
-    
-    <hr>
-
-    <section>
-        <div class="row">
-            <p-stats id="stats-summary" summarize></p-stats>
-            <p-pie-chart id="stats-pie"></pp-pie-chart>
-        </div>
-    </section>
-    
-    <hr>
     
     <footer>
         <p>By using this website, you agree that POOPSICLE rigged the algorithm.</p>
