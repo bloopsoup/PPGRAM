@@ -40,6 +40,16 @@ main, section, footer {
     padding: 50px 0 50px 0;
 }
 
+ol {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    list-style-position: inside;
+    padding: 20px 0;
+}
+
 div.column {
     display: flex;
     flex-direction: column;

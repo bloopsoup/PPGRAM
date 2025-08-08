@@ -3,7 +3,7 @@
         flex-direction: row;
     }
 
-    h1, h2, p {
+    h1, h2, p, li {
         font-size: 50px;
     }
 

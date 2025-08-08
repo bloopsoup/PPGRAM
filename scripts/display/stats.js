@@ -29,12 +29,14 @@ export default class Stats extends HTMLElement {
 
         const elements = [];
         const counter = new Counter(items.split(','));
-        if (summarize === null) items.split(',').forEach((item, i) => elements.push(`<p>${i + 1} ${item}</p>`));
-        else counter.forEachPercent((key, i, current, _) => elements.push(`<p style="color: ${Stacked.getColor(Math.floor(i + current))}">${i + 1} ${key} ${counter.count(key)}</p>`));
+        if (summarize === null) items.split(',').forEach(item => elements.push(`<li>${item}</li>`));
+        else counter.forEachPercent((key, i, current, _) => elements.push(`<li style="color: ${Stacked.getColor(Math.floor(i + current))}">${key} ${counter.count(key)}</li>`));
 
         this.innerHTML = `<div class="column">
             ${headers ? headers.split(',').map(header => `<h2>${header}</h2>`).join('\n') : ""}
-            ${elements.join('\n')}
+            <ol>
+                ${elements.join('\n')}
+            </ol>
         </div>`;
     }
 }
