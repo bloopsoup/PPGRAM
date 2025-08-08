@@ -18,7 +18,7 @@ body {
 nav {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+
     align-items: center;
     width: 100%;
 
@@ -30,11 +30,10 @@ nav {
     box-shadow: 0 4px 20px rgba(9, 4, 54, 1);
 }
 
-section, footer {
+main, section, footer {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
 
     min-height: 100vh;
     padding: 50px 0 50px 0;
@@ -44,7 +43,6 @@ div.column {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
 
     padding: 20px;
 }
