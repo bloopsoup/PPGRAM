@@ -17,15 +17,14 @@ class Main {
 
         // Display the elements
         const [pickedStatus, pickedName, pickedDate] = [document.getElementById('picked-status'), document.getElementById('picked-name'), document.getElementById('picked-date')];
-        const [statsRecent, statsSummary, statsPie] = [document.getElementById('stats-recent'), document.getElementById('stats-summary'), document.getElementById('stats-pie')];
+        const [statsRecent, statsSummaryHeader, statsSummary, statsPie] = [document.getElementById('stats-recent'), document.getElementById('stats-summary-header'), document.getElementById('stats-summary'), document.getElementById('stats-pie')];
 
         if (pickedStatus) pickedStatus.textContent = 'victim';
         if (pickedName) pickedName.textContent = chosenName;
         if (pickedDate) pickedDate.textContent = new Date().toLocaleString();
 
-        statsRecent?.setAttribute('headers', ['previous victims'].join(','));
+        if (statsSummaryHeader) statsSummaryHeader.textContent = `stats (TOTAL ${names.length}) (SUS ${sus.toFixed(2)}%)`
         statsRecent?.setAttribute('items', names.slice(1, 6).join(','));
-        statsSummary?.setAttribute('headers', [`stats (${names.length} total)`, `sus meter ${sus.toFixed(2)}% (p=${pValue.toFixed(2)})`].join(','));
         statsSummary?.setAttribute('items', names.join(','));
         statsPie?.setAttribute('items', names.join(','));
     }

@@ -8,7 +8,7 @@ export default class Stats extends HTMLElement {
     connectedCallback() { this.render(); }
 
     /** @returns {string[]} The attributes. */
-    static get observedAttributes() { return ['headers', 'items', 'summarize']; }
+    static get observedAttributes() { return ['items', 'summarize']; }
 
     /** Callback that is ran when an attribute is changed.
      *  @param {string} name - The name. 
@@ -22,7 +22,6 @@ export default class Stats extends HTMLElement {
 
     /** Renders the element. */
     render() {
-        const headers = this.getAttribute('headers');
         const items = this.getAttribute('items');
         const summarize = this.getAttribute('summarize');
         if (items === null) {this.innerHTML = ''; return;}
@@ -32,12 +31,9 @@ export default class Stats extends HTMLElement {
         if (summarize === null) items.split(',').forEach(item => elements.push(`<li>${item}</li>`));
         else counter.forEachPercent((key, i, current, _) => elements.push(`<li style="color: ${Stacked.getColor(Math.floor(i + current))}">${key} ${counter.count(key)}</li>`));
 
-        this.innerHTML = `<div class="column">
-            ${headers ? headers.split(',').map(header => `<h2>${header}</h2>`).join('\n') : ""}
-            <ol>
-                ${elements.join('\n')}
-            </ol>
-        </div>`;
+        this.innerHTML = `<ol>
+            ${elements.join('\n')}
+        </ol>`;
     }
 }
 

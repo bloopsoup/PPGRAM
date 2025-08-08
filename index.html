@@ -22,7 +22,7 @@
     </header>
 
     <main>
-        <section>
+        <section aria-labelledby="picked-status">
             <h2 id="picked-status">loading...</h2>
             <h3 style="color: rgb(255, 202, 237);" class="floating" id="picked-name"></h3>
             <h2 style="text-align: right;" id="picked-date"></h2>
@@ -30,15 +30,19 @@
 
         <hr>
 
-        <section>
+        <section aria-labelledby="stats-recent-header">
+            <h2 id="stats-recent-header">previous victims</h2>
             <p-stats id="stats-recent"></p-stats>
         </section>
     
         <hr>
 
-        <section>
+        <section aria-labelledby="stats-summary-header">
             <div class="row">
-                <p-stats id="stats-summary" summarize></p-stats>
+                <div class="column">
+                    <h2 id="stats-summary-header">stats</h2>
+                    <p-stats id="stats-summary" summarize></p-stats>
+                </div>  
                 <p-pie-chart id="stats-pie"></pp-pie-chart>
             </div>
         </section>
