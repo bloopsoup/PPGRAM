@@ -3,7 +3,7 @@ import { Counter, Stacked } from '../common/index.js';
 /** The pie chart element.
  *  @augments HTMLElement 
  *  @author bloopsoup */
-export default class PPPieChart extends HTMLElement {
+export default class PieChart extends HTMLElement {
     constructor() { super(); }
     connectedCallback() { this.render(); }
 
@@ -15,7 +15,9 @@ export default class PPPieChart extends HTMLElement {
      *  @param {string} oldValue - The old value.
      *  @param {string} newValue - The new value. */
     attributeChangedCallback(name, oldValue, newValue) {
-        if (name === 'items') this.render();
+        if (!PieChart.observedAttributes.includes(name)) return;
+        if (oldValue === newValue) return;
+        this.render();
     }
 
     /** Renders the element. */
@@ -26,7 +28,6 @@ export default class PPPieChart extends HTMLElement {
         const slices = [];
         const counter = new Counter(items.split(','));
         counter.forEachPercent((_, i, current, percent) => slices.push(`${Stacked.getColor(Math.floor(i + current))} ${current}% ${current + percent}%`));
-        console.log(`conic-gradient(${slices.join(', ')})`);
 
         this.innerHTML = `<div class="column">
             <figure class="pie" style="background: conic-gradient(${slices.join(', ')})"></figure>
@@ -34,4 +35,4 @@ export default class PPPieChart extends HTMLElement {
     }
 }
 
-customElements.define('pp-pie-chart', PPPieChart);
+customElements.define('p-pie-chart', PieChart);

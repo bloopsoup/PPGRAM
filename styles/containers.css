@@ -1,9 +1,4 @@
 * {
-    font-family: 'Jost-Black';
-    font-size: 100%;
-    line-height: 0.95;
-    color: white;
-
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -59,35 +54,4 @@ div.row {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-hr {
-    width: 100%;
-    border: none;
-    border-bottom: 5px solid #6b37be;
-    box-shadow: 0 0 20px rgb(150, 69, 243);
-}
-
-h1, h2, a {
-    width: 100%;
-    font-family: 'Jost-SemiBold';
-    font-size: 25px;
-}
-
-h3 {
-    width: 100%;
-    font-size: 45px;
-    text-shadow: 0 0 20px rgba(53, 9, 211, 0.466);
-}
-
-p {
-    width: 100%;
-    font-size: 25px;
-}
-
-figure.pie {
-    width: 250px;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    background-image: conic-gradient(red 0% 100%);
 }

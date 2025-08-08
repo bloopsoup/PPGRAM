@@ -16,13 +16,18 @@ class Main {
         const sus = ((1 - pValue) / .95) * 100;
 
         // Display the elements
-        document.querySelector('pp-pick')?.setAttribute('name', chosenName);
-        document.querySelector('pp-pick')?.setAttribute('date', new Date().toLocaleString());
-        document.querySelector('pp-list')?.setAttribute('name', 'previous victims');
-        document.querySelector('pp-list')?.setAttribute('items', names.slice(1, 6).join(','));
-        document.querySelector('pp-stats')?.setAttribute('headers', [`stats (${names.length} total)`, `sus meter ${sus.toFixed(2)}% (p=${pValue.toFixed(2)})`].join(','));
-        document.querySelector('pp-stats')?.setAttribute('items', names.join(','));
-        document.querySelector('pp-pie-chart')?.setAttribute('items', names.join(','));
+        const [pickedStatus, pickedName, pickedDate] = [document.getElementById('picked-status'), document.getElementById('picked-name'), document.getElementById('picked-date')];
+        const [statsRecent, statsSummary, statsPie] = [document.getElementById('stats-recent'), document.getElementById('stats-summary'), document.getElementById('stats-pie')];
+
+        if (pickedStatus) pickedStatus.textContent = 'victim';
+        if (pickedName) pickedName.textContent = chosenName;
+        if (pickedDate) pickedDate.textContent = new Date().toLocaleString();
+
+        statsRecent?.setAttribute('headers', ['previous victims'].join(','));
+        statsRecent?.setAttribute('items', names.slice(1, 6).join(','));
+        statsSummary?.setAttribute('headers', [`stats (${names.length} total)`, `sus meter ${sus.toFixed(2)}% (p=${pValue.toFixed(2)})`].join(','));
+        statsSummary?.setAttribute('items', names.join(','));
+        statsPie?.setAttribute('items', names.join(','));
     }
 }
 

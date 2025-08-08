@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PPGRAM%</title>
 
+    <link rel="stylesheet" type="text/css" href="styles/animations.css">
+    <link rel="stylesheet" type="text/css" href="styles/containers.css">
+    <link rel="stylesheet" type="text/css" href="styles/elements.css">
     <link rel="stylesheet" type="text/css" href="styles/fonts.css">
-    <link rel="stylesheet" type="text/css" href="styles/styles.css">
     <link rel="stylesheet" type="text/css" href="styles/queries.css">
     <link rel="icon" type="image/png" href="images/favicon.png">
     
@@ -19,18 +21,27 @@
         <a href="https://github.com/bloopsoup/PPGRAM" target="_blank" style="text-align: right;">GITHUB</a>
     </nav>
 
-    <pp-pick></pp-pick>
+    <section>
+        <h2 id="picked-status">loading...</h2>
+        <h3 style="color: rgb(255, 202, 237);" class="floating" id="picked-name"></h3>
+        <h2 style="text-align: right;" id="picked-date"></h2>
+    </section>
+
     <hr>
 
-    <pp-list></pp-list>
+    <section>
+        <p-stats id="stats-recent"></p-stats>
+    </section>
+    
     <hr>
 
     <section>
         <div class="row">
-            <pp-stats></pp-stats>
-            <pp-pie-chart></pp-pie-chart>
+            <p-stats id="stats-summary" summarize></p-stats>
+            <p-pie-chart id="stats-pie"></pp-pie-chart>
         </div>
     </section>
+    
     <hr>
     
     <section>
