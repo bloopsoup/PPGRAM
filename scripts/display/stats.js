@@ -31,7 +31,7 @@ export default class Stats extends HTMLElement {
         if (summarize === null) items.split(',').forEach(item => elements.push(`<li>${item}</li>`));
         else counter.forEachPercent((key, i, current, _) => elements.push(`<li style="color: ${Stacked.getColor(Math.floor(i + current))}">${key} ${counter.count(key)}</li>`));
 
-        this.innerHTML = `<ol>
+        this.innerHTML = `<ol class="floating">
             ${elements.join('\n')}
         </ol>`;
     }

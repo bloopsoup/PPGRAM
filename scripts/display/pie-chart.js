@@ -29,7 +29,7 @@ export default class PieChart extends HTMLElement {
         const counter = new Counter(items.split(','));
         counter.forEachPercent((_, i, current, percent) => slices.push(`${Stacked.getColor(Math.floor(i + current))} ${current}% ${current + percent}%`));
 
-        this.innerHTML = `<figure class="pie" style="background: conic-gradient(${slices.join(', ')})"></figure>`;
+        this.innerHTML = `<figure class="pie floating" style="background: conic-gradient(${slices.join(', ')})"></figure>`;
     }
 }
 
