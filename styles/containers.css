@@ -43,7 +43,7 @@ section, footer {
     justify-content: center;
     align-items: center;
 
-    min-height: 100vh;
+    min-height: 100dvh;
     padding: 50px 0 50px 0;
 }
 
