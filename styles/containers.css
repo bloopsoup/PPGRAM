@@ -1,3 +1,7 @@
+:root {
+    --base-width: 80%;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -9,7 +13,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 80%;
+    width: var(--base-width);
 
     margin: 0 auto;
     background: linear-gradient(90deg, rgba(45, 5, 58, 1) 0%, rgba(9, 4, 54, 1) 100%);
@@ -23,8 +27,8 @@ header {
     width: 100%;
 
     position: absolute;
-    top: 0px;
-    padding: 15px 10% 15px 10%;
+    top: 0;
+    padding: 15px calc((100% - var(--base-width)) / 2);
     border-bottom: 5px solid rgba(9, 4, 54, 1);
     background: linear-gradient(90deg, rgb(79, 26, 90) 0%, rgb(19, 12, 77) 100%);
     box-shadow: 0 4px 20px rgba(9, 4, 54, 1);
@@ -44,7 +48,7 @@ section, footer {
     align-items: center;
 
     min-height: 100svh;
-    padding: 50px 0 50px 0;
+    padding: 50px 0;
 }
 
 ol {

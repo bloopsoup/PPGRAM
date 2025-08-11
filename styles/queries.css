@@ -1,17 +1,13 @@
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 62.5em) {
+    * {
+        font-size: 200%;
+    }
+
     div.row {
         flex-direction: row;
     }
 
-    h1, h2, p, li {
-        font-size: 50px;
-    }
-
-    h3 {
-        font-size: 100px;
-    }
-
     figure.pie {
-        width: 350px;
+        width: 12rem;
     }
 }
