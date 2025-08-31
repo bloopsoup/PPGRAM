@@ -27,7 +27,9 @@ header {
     width: 100%;
 
     position: absolute;
+    z-index: 2;
     top: 0;
+
     padding: 15px calc((100% - var(--base-width)) / 2);
     border-bottom: 5px solid rgba(9, 4, 54, 1);
     background: linear-gradient(90deg, rgb(79, 26, 90) 0%, rgb(19, 12, 77) 100%);
@@ -74,4 +76,9 @@ div.row {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+div.block {
+    position: relative;
+    width: 100%;
 }

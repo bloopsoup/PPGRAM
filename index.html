@@ -23,7 +23,10 @@
 
     <main>
         <section aria-labelledby="picked-status">
-            <h2 id="picked-status">loading...</h2>
+            <div class="block">
+                <p-splash-image src="images/git-doge/time.png" hidden id="picked-image"></p-splash-image>
+                <h2 id="picked-status">loading...</h2>
+            </div>
             <h3 style="color: rgb(255, 202, 237);" class="floating" id="picked-name"></h3>
             <h2 style="text-align: right;" id="picked-date"></h2>
         </section>
@@ -41,9 +44,9 @@
             <div class="row">
                 <div class="column">
                     <h2 id="stats-summary-header">stats</h2>
-                    <p-stats id="stats-summary" summarize></p-stats>
+                    <p-stats class="floating" id="stats-summary" summarize></p-stats>
                 </div>  
-                <p-pie-chart id="stats-pie"></pp-pie-chart>
+                <p-pie-chart class="floating" id="stats-pie"></pp-pie-chart>
             </div>
         </section>
 

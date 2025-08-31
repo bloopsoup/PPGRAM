@@ -7,7 +7,14 @@
         flex-direction: row;
     }
 
-    figure.pie {
-        width: 12rem;
+    #picked-image {
+        bottom: -70px;
+
+        width: 250px;
+        height: 250px;
+    }
+
+    #stats-pie {
+        min-width: 12rem;
     }
 }
