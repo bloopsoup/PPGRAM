@@ -12,16 +12,24 @@
     <link rel="stylesheet" type="text/css" href="styles/queries.css">
     <link rel="icon" type="image/png" href="images/favicon.png">
     
-    <script src="scripts/main.js" type="module" defer></script>
+    <script type="module" defer>
+        import Main from './scripts/main.js';
+        Main.init();
+        window.Main = Main;
+    </script>
 </head>
 
 <body>
-    <header>
+    <div role="dialog" aria-modal="true" aria-labelledby="dialog-header" onkeydown="Main.handleEnter(event)" onclick="Main.run()" tabindex="0" class="column" id="dialog">
+        <h1 id="dialog-header" style="width: auto; font-size: 10rem;">PP</h1>
+    </div>
+
+    <header style="display: none;">
         <h1>PPGRAM%</h1>
         <a href="https://github.com/bloopsoup/PPGRAM" target="_blank" style="text-align: right;">GITHUB</a>
     </header>
 
-    <main>
+    <main style="display: none;">
         <section aria-labelledby="picked-status">
             <div class="block">
                 <p-splash-image src="images/git-doge/time.png" hidden id="picked-image"></p-splash-image>
@@ -53,7 +61,7 @@
         <hr>
     </main>
     
-    <footer>
+    <footer style="display: none;">
         <p>By using this website, you agree that POOPSICLE rigged the algorithm.</p>
     </footer>
 </body>
