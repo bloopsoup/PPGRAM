@@ -20,7 +20,7 @@
 </head>
 
 <body>
-    <div role="dialog" aria-modal="true" aria-labelledby="dialog-header" onkeydown="Main.handleEnter(event)" onclick="Main.run()" tabindex="0" class="column" id="dialog">
+    <div role="dialog" aria-modal="true" aria-labelledby="dialog-header" onkeydown="Main.handleEnter(event)" onclick="Main.run()" tabindex="-1" class="column" id="dialog">
         <h1 id="dialog-header" style="width: auto; font-size: 10rem;">PP</h1>
     </div>
 
@@ -44,8 +44,13 @@
         <hr>
 
         <section aria-labelledby="stats-recent-header">
-            <h2 id="stats-recent-header">previous victims</h2>
-            <p-stats id="stats-recent"></p-stats>
+            <div class="row">
+                <div class="column">
+                     <h2 id="stats-recent-header">previous victims</h2>
+                     <p-stats id="stats-recent"></p-stats>
+                </div>
+                <p-splash-image src="images/git-doge/book.png" id="stats-image"></p-splash-image>
+            </div>
         </section>
     
         <hr>

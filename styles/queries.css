@@ -14,7 +14,15 @@
         height: 250px;
     }
 
+    #stats-image {
+        width: 500px;
+        min-width: 500px;
+        height: 500px;
+        min-height: 500px;
+    }
+
     #stats-pie {
+        width: 12rem;
         min-width: 12rem;
     }
 }
