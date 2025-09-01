@@ -73,6 +73,13 @@ export default class Stacked {
         return 1 - this.#chiSquareCDF(chiSquareStatistic, degreesOfFreedom);
     }
 
+    /**
+     * REALLY picks a random element from a list.
+     * @param {string[]} lst - The list to pick from. 
+     * @returns  {string} The chosen element.
+     */
+    static getRandomChoice(lst) { return lst[Math.floor(Math.random() * lst.length)]; }
+
     /** Picks a random element from a list.
      *  {@link https://stackoverflow.com/questions/521295/seeding-the-random-number-generator-in-javascript StackOverflow}
      *  @param {string[]} lst - The list to pick from.

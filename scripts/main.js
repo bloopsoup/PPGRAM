@@ -35,8 +35,9 @@ export default class Main {
         pickedImage?.removeAttribute('hidden');
         
         // Play audio
+        const songs = ["audio-lullaby", "audio-waken"];
         // @ts-ignore
-        document.getElementById('background-audio')?.play();
+        document.getElementById(Stacked.getRandomChoice(songs))?.play();
 
         // Run update once and then set an interval
         Main.#update();
