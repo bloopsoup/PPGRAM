@@ -10,12 +10,19 @@ export default class Counter {
      *  @param {string[]} items - The items to count. */
     constructor(items) {
         this.#data = {};
-        this.#total = items.length;
+        this.#total = 0;
         
         for (const item of items) {
-            if (!(item in this.#data)) this.#data[item] = 0;
-            this.#data[item]++;
+            this.add(item);
         }
+    }
+
+    /** Add the item to the counter
+     *  @param {string} item - The item to add. */
+    add(item) {
+        if (!(item in this.#data)) this.#data[item] = 0;
+        this.#data[item]++;
+        this.#total++;
     }
 
     /** @returns {number} The total. */

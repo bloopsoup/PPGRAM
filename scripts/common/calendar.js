@@ -37,4 +37,7 @@ export default class Calendar {
 
     /** @returns {number} The total number of elapsed days. */
     static get totalElapsedDays() { return this.#getTotalDays(this.#today) - this.#getTotalDays(this.#start); }
+
+    /** @returns {number} The total number of days at start. */
+    static get totalDaysAtStart() { return this.#getTotalDays(this.#start); }
 }
