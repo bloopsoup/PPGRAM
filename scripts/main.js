@@ -4,25 +4,14 @@ import * as display from "./display/index.js";
 /** Picks victims in a totally fair and unbiased way.
  *  @author git-doge (initial version) and bloopsoup */
 export default class Main {
-    /** Initializes the page. */
-    static init() { document.getElementById('dialog')?.focus(); }
-
-    /**
-     * Handle a keyboard enter press.
-     * @param {KeyboardEvent} e - The keyboard event.
-     */
+    /** Handle a keyboard enter press.
+     *  @param {KeyboardEvent} e - The keyboard event. */
     static handleEnter(e) { if (e.key === 'Enter') Main.run(); }
 
     /** Runs the page. */
     static run() {
-        // Hide the dialog
-        const dialog = document.getElementById('dialog');
-        if (dialog) {
-            dialog.style.transition = 'opacity 4s ease';
-            dialog.style.opacity = '0';
-            dialog.style.pointerEvents = 'none';
-            dialog.addEventListener('transitionend', () => dialog.style.display = 'none', { once: true });
-        }
+        // @ts-ignore
+        document.getElementById('dialog')?.dismiss();
 
         // Display layout elements
         document.querySelectorAll('header').forEach(element => element.removeAttribute('style'));
@@ -56,7 +45,7 @@ export default class Main {
         const susValues = [];
         const weights = Array.from({ length: nameChoices.length }, () => 1.0 / nameChoices.length);
         // Days included need to match day numbers used in 'names' above
-        for (let day = Calendar.totalDaysAtStart+1; day <= Calendar.totalTodayDays; day++) {
+        for (let day = Calendar.totalDaysAtStart + 1; day <= Calendar.totalTodayDays; day++) {
             const choice = Stacked.getChoice(nameChoices, day);
             susCounter.add(choice);
             const significance = Stacked.getSignificance(susCounter.counts, weights);

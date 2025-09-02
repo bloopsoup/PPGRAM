@@ -73,11 +73,9 @@ export default class Stacked {
         return 1 - this.#chiSquareCDF(chiSquareStatistic, degreesOfFreedom);
     }
 
-    /**
-     * REALLY picks a random element from a list.
-     * @param {string[]} lst - The list to pick from. 
-     * @returns  {string} The chosen element.
-     */
+    /** REALLY picks a random element from a list.
+     *  @param {string[]} lst - The list to pick from. 
+     *  @returns  {string} The chosen element. */
     static getRandomChoice(lst) { return lst[Math.floor(Math.random() * lst.length)]; }
 
     /** Picks a random element from a list.
@@ -104,7 +102,7 @@ export default class Stacked {
         return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`; 
     }
 
-    /** Gets the p value given counts of each item and weights of each item
+    /** Gets the p value given counts of each item and weights of each item.
      *  @param {number[]} counts - The integer counts of each category.
      *  @param {number[]} weights - The normalized weight of each category.
      *  @returns {number} The significance. */

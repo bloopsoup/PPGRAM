@@ -62,7 +62,7 @@ ol {
     list-style-position: inside;
 }
 
-div.column {
+.column {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -71,19 +71,19 @@ div.column {
     padding: 20px;
 }
 
-div.row {
+.row {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-div.block {
+.block {
     position: relative;
     width: 100%;
 }
 
-#dialog {
+.dialog {
     position: fixed;
     top: 0;
     left: 0;

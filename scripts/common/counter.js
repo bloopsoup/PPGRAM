@@ -11,13 +11,10 @@ export default class Counter {
     constructor(items) {
         this.#data = {};
         this.#total = 0;
-        
-        for (const item of items) {
-            this.add(item);
-        }
+        items.forEach(item => this.add(item));
     }
 
-    /** Add the item to the counter
+    /** Add the item to the counter.
      *  @param {string} item - The item to add. */
     add(item) {
         if (!(item in this.#data)) this.#data[item] = 0;
