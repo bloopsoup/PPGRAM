@@ -1,30 +1,39 @@
 /** The line chart element.
  *  @augments HTMLElement */
 export default class LineChart extends HTMLElement {
-    constructor() { 
-        super(); 
-        this.resizeObserver = null;
-    }
-    
-    connectedCallback() { 
-        this.render(); 
-        // Set up resize observer for responsive behavior
-        if (window.ResizeObserver) {
-            this.resizeObserver = new ResizeObserver(() => {
-                requestAnimationFrame(() => this.render());
-            });
-            this.resizeObserver.observe(this);
-        }
-    }
+    /** @type {{left: number; right: number; top: number; bottom: number}} */
+    #padding = { left: 40, right: 10, top: 10, bottom: 24 };
+    /** @type {ResizeObserver} */
+    #resizeObserver
+    /** @type {HTMLCanvasElement} */
+    #canvas
+    /** @type {CanvasRenderingContext2D} */
+    #context
 
-    disconnectedCallback() {
-        if (this.resizeObserver) {
-            this.resizeObserver.disconnect();
-        }
+    /** Create the element. */
+    constructor() { 
+        super();
+        this.style.display = 'contents';
+        this.#resizeObserver = new ResizeObserver(() => requestAnimationFrame(() => this.#render()));
+
+        this.#canvas = this.#createCanvas();
+        const context = this.#canvas.getContext('2d');
+        if (context === null) throw new Error('Failed to get 2D canvas context.');
+        else this.#context = context;
+        this.appendChild(this.#canvas);
     }
 
     /** @returns {string[]} The attributes. */
     static get observedAttributes() { return ['values', 'min', 'max']; }
+    
+    /** Callback that is ran on DOM insertion. */
+    connectedCallback() {
+        this.#resizeObserver.observe(this);
+        this.#render();
+    }
+
+    /** Callback that is ran on DOM removal. */
+    disconnectedCallback() { this.#resizeObserver.disconnect(); }
 
     /** Callback that is ran when an attribute is changed.
      *  @param {string} name - The name. 
@@ -33,115 +42,133 @@ export default class LineChart extends HTMLElement {
     attributeChangedCallback(name, oldValue, newValue) {
         if (!LineChart.observedAttributes.includes(name)) return;
         if (oldValue === newValue) return;
-        this.render();
+
+        this.#render();
+    }
+
+    /** Creates a canvas element.
+     *  @returns {HTMLCanvasElement} The canvas element. */
+    #createCanvas() {
+        const canvas = document.createElement('canvas');
+        canvas.style.width = '100%';
+        canvas.style.height = 'clamp(160px, 25vw, 400px)';
+        canvas.style.display = 'block';
+        return canvas;
+    }
+
+    /** Draws a no data notice. */
+    #drawNotice() {
+        this.#context.save();
+
+        this.#context.font = '12px sans-serif';
+        this.#context.fillStyle = '#888';
+
+        this.#context.fillText('No data', 10, 20);
+
+        this.#context.restore();
+    }
+
+    /** Draws a grid.
+     *  @param {number} width - The width.
+     *  @param {number} height - The height.
+     *  @param {number} min - The minimum value.
+     *  @param {number} max - The max value. */
+    #drawGrid(width, height, min, max) {
+        const innerHeight = height - this.#padding.top - this.#padding.bottom;
+        const ticks = [Math.round((min + max) / 2), Math.round((min + max) * .9), max];
+
+        this.#context.save();
+
+        this.#context.font = '12px sans-serif';
+        this.#context.lineWidth = 1;
+        this.#context.fillStyle = 'rgba(255, 255, 255, 0.6)';
+        this.#context.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+
+        for (const tick of ticks) {
+            const y = this.#padding.top + (1 - (tick - min) / (max - min)) * innerHeight;
+            this.#context.beginPath();
+            this.#context.moveTo(this.#padding.left, y);
+            this.#context.lineTo(width - this.#padding.right, y);
+            this.#context.stroke();
+            this.#context.fillText(tick == max ? "jail" : String(tick), 6, y + 4);
+        }
+
+        this.#context.restore();
+    }
+
+    /** Draws a plotted line.
+     *  @param {number} width - The width.
+     *  @param {number} height - The height.
+     *  @param {number} min - The minimum value.
+     *  @param {number} max - The max value.
+     *  @param {number[]} values - The values. */
+    #drawPlotLine(width, height, min, max, values) {
+        const innerWidth = width - this.#padding.left - this.#padding.right;
+        const innerHeight = height - this.#padding.top - this.#padding.bottom;
+
+        this.#context.save();
+
+        // Draw the line
+        this.#context.lineWidth = 2;
+        this.#context.shadowBlur = 10;
+        this.#context.strokeStyle = 'rgb(255, 202, 237)';
+        this.#context.shadowColor = 'rgb(255, 202, 237)';
+
+        this.#context.beginPath();
+        for (let i = 0; i < values.length; i++) {
+            const x = this.#padding.left + (i / Math.max(1, values.length - 1)) * innerWidth;
+            const v = Math.max(min, Math.min(max, values[i]));
+            const y = this.#padding.top + (1 - (v - min) / (max - min)) * innerHeight;
+
+            if (i === 0) this.#context.moveTo(x, y);
+            else this.#context.lineTo(x, y);
+        }
+        this.#context.stroke();
+        
+        // Draw the dots
+        this.#context.shadowBlur = 5;
+        this.#context.fillStyle = 'rgb(255, 202, 237)';
+        this.#context.shadowColor = 'rgb(255, 202, 237)';
+
+        for (let i = 0; i < values.length; i++) {
+            const x = this.#padding.left + (i / Math.max(1, values.length - 1)) * innerWidth;
+            const v = Math.max(min, Math.min(max, values[i]));
+            const y = this.#padding.top + (1 - (v - min) / (max - min)) * innerHeight;
+
+            this.#context.beginPath();
+            this.#context.arc(x, y, 2, 0, Math.PI * 2);
+            this.#context.fill();
+        }
+        
+        this.#context.restore();
     }
 
     /** Renders the element. */
-    render() {
-        const valuesAttr = this.getAttribute('values');
-        const minAttr = this.getAttribute('min');
-        const maxAttr = this.getAttribute('max');
-        
-        if (valuesAttr === null) {
-            this.innerHTML = '';
-            return;
-        }
+    #render() {
+        // Initialize a ton of values
+        const valuesAttribute = this.getAttribute('values');
+        const minAttribute = this.getAttribute('min');
+        const maxAttribute = this.getAttribute('max');
+        if (valuesAttribute === null) return;
 
-        const values = valuesAttr.split(',').map(v => parseFloat(v)).filter(v => !isNaN(v));
-        const minVal = minAttr !== null ? parseFloat(minAttr) : Math.min(...values, 0);
-        const maxVal = maxAttr !== null ? parseFloat(maxAttr) : Math.max(...values, 100);
+        const values = valuesAttribute.split(',').map(v => parseFloat(v)).filter(v => !isNaN(v));
+        const min = minAttribute !== null ? parseFloat(minAttribute) : Math.min(...values, 0);
+        const max = maxAttribute !== null ? parseFloat(maxAttribute) : Math.max(...values, 100);
 
-        // Create canvas if it doesn't exist
-        let canvas = this.querySelector('canvas');
-        if (!canvas) {
-            canvas = document.createElement('canvas');
-            canvas.style.width = '100%';
-            canvas.style.height = 'clamp(160px, 25vw, 400px)';
-            canvas.style.display = 'block';
-            // Make the custom element not take up space - canvas handles all layout
-            this.style.display = 'contents';
-            this.appendChild(canvas);
-        }
-
-        const ctx = canvas.getContext('2d');
-        const cssWidth = canvas.clientWidth || (canvas.parentElement?.clientWidth ?? 400);
-        const cssHeight = canvas.clientHeight || parseInt(getComputedStyle(canvas).height) || 160;
+        const cssWidth = this.#canvas.clientWidth || (this.#canvas.parentElement?.clientWidth ?? 400);
+        const cssHeight = this.#canvas.clientHeight || parseInt(getComputedStyle(this.#canvas).height) || 160;
         const ratio = window.devicePixelRatio || 1;
-        canvas.width = Math.floor(cssWidth * ratio);
-        canvas.height = Math.floor(cssHeight * ratio);
-        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-        ctx.clearRect(0, 0, cssWidth, cssHeight);
 
-        if (!values.length) {
-            ctx.fillStyle = '#888';
-            ctx.font = '12px sans-serif';
-            ctx.fillText('No data', 10, 20);
-            return;
-        }
+        // Adjust the canvas
+        this.#canvas.width = Math.floor(cssWidth * ratio);
+        this.#canvas.height = Math.floor(cssHeight * ratio);
+        this.#context.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-        const padding = { left: 40, right: 10, top: 10, bottom: 24 };
-        const w = cssWidth;
-        const h = cssHeight;
-        const innerW = w - padding.left - padding.right;
-        const innerH = h - padding.top - padding.bottom;
-
-        // grid + labels
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
-        ctx.lineWidth = 1;
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-        ctx.font = '12px sans-serif';
-        const ticks = [Math.round((minVal + maxVal) / 2), Math.round((minVal + maxVal) * .9)];
-        ticks.forEach(t => {
-            const y = padding.top + (1 - (t - minVal) / (maxVal - minVal)) * innerH;
-            ctx.beginPath();
-            ctx.moveTo(padding.left, y);
-            ctx.lineTo(w - padding.right, y);
-            ctx.stroke();
-            ctx.fillText(String(t), 6, y + 4);
-        });
-        // max value line
-        const topY = padding.top + (1 - (maxVal - minVal) / (maxVal - minVal)) * innerH;
-        ctx.beginPath();
-        ctx.moveTo(padding.left, topY);
-        ctx.lineTo(w - padding.right, topY);
-        ctx.stroke();
-        ctx.fillText("jail", 6, topY + 4);
-
-        // line
-        ctx.beginPath();
-        for (let i = 0; i < values.length; i++) {
-            const x = padding.left + (i / Math.max(1, values.length - 1)) * innerW;
-            const v = Math.max(minVal, Math.min(maxVal, values[i]));
-            const y = padding.top + (1 - (v - minVal) / (maxVal - minVal)) * innerH;
-            if (i === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
-        }
-        
-        // Add glow effect
-        ctx.shadowColor = 'rgb(255, 202, 237)';
-        ctx.shadowBlur = 10;
-        ctx.strokeStyle = 'rgb(255, 202, 237)';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-        
-        // Reset shadow for points
-        ctx.shadowBlur = 0;
-
-        // points
-        ctx.fillStyle = 'rgb(255, 202, 237)';
-        ctx.shadowColor = 'rgb(255, 202, 237)';
-        ctx.shadowBlur = 5;
-        for (let i = 0; i < values.length; i++) {
-            const x = padding.left + (i / Math.max(1, values.length - 1)) * innerW;
-            const v = Math.max(minVal, Math.min(maxVal, values[i]));
-            const y = padding.top + (1 - (v - minVal) / (maxVal - minVal)) * innerH;
-            ctx.beginPath();
-            ctx.arc(x, y, 2, 0, Math.PI * 2);
-            ctx.fill();
-        }
-        
-        // Reset shadow
-        ctx.shadowBlur = 0;
+        // Draw
+        this.#context.clearRect(0, 0, cssWidth, cssHeight);
+        if (!values.length) { this.#drawNotice(); return; }
+        this.#drawGrid(cssWidth, cssHeight, min, max);
+        this.#drawPlotLine(cssWidth, cssHeight, min, max, values);
     }
 }
 
