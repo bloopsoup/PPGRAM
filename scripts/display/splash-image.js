@@ -34,6 +34,7 @@ export default class SplashImage extends HTMLElement {
      *  @returns {HTMLImageElement} The image element. */
     #createImage() {
         const img = document.createElement('img');
+        img.draggable = false;
         img.className = 'splash';
         img.alt = '';
         img.ariaHidden = 'true';
