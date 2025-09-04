@@ -26,6 +26,7 @@ export default class SplashImage extends HTMLElement {
     attributeChangedCallback(name, oldValue, newValue) {
         if (!SplashImage.observedAttributes.includes(name)) return;
         if (oldValue === newValue) return;
+
         this.#render();
     }
 

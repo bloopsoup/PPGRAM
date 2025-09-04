@@ -29,6 +29,7 @@ export default class PieChart extends HTMLElement {
     attributeChangedCallback(name, oldValue, newValue) {
         if (!PieChart.observedAttributes.includes(name)) return;
         if (oldValue === newValue) return;
+
         this.#render();
     }
 

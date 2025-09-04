@@ -3,7 +3,7 @@
         font-size: 200%;
     }
 
-    div.row {
+    .row {
         flex-direction: row;
     }
 
