@@ -19,9 +19,8 @@ export default class Main {
         document.querySelectorAll('footer').forEach(element => element.removeAttribute('style'));
 
         // Display static elements
-        const [pickedStatus, pickedImage] = [document.getElementById('picked-status'), document.getElementById('picked-image')];
+        const pickedStatus = document.getElementById('picked-status');
         if (pickedStatus) pickedStatus.textContent = 'victim';
-        pickedImage?.removeAttribute('hidden');
         
         // Play audio
         const songs = ["audio-lullaby", "audio-waken"];
