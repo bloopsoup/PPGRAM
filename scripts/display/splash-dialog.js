@@ -2,8 +2,8 @@
  *  @augments HTMLElement
  *  @author bloopsoup */
 export default class SplashDialog extends HTMLElement {
-    /** @type {HTMLElement} */
-    #header
+    /** @type {HTMLHeadingElement} */
+    #h1
 
     /** Create the element. */
     constructor() {
@@ -13,8 +13,8 @@ export default class SplashDialog extends HTMLElement {
         this.tabIndex = -1;
         this.classList.add('column', 'dialog');
 
-        this.#header = this.#createHeader();
-        this.appendChild(this.#header);
+        this.#h1 = this.#createHeader();
+        this.appendChild(this.#h1);
     }
 
     /** @returns {string[]} The attributes. */
@@ -22,7 +22,7 @@ export default class SplashDialog extends HTMLElement {
 
     /** Callback that is ran on DOM insertion. */
     connectedCallback() {
-        this.#header.id = `${this.id}-header`;
+        this.#h1.id = `${this.id}-header`;
         this.setAttribute('aria-labelledby', `${this.id}-header`);
 
         this.#render();
@@ -40,16 +40,16 @@ export default class SplashDialog extends HTMLElement {
     }
 
     /** Creates a header.
-     *  @returns {HTMLElement} The header. */
+     *  @returns {HTMLHeadingElement} The header. */
     #createHeader() {
-        const header = document.createElement('h1');
-        header.style = 'width: auto; font-size: 10rem;';
-        return header;
+        const h1 = document.createElement('h1');
+        h1.style = 'width: auto; font-size: 10rem;';
+        return h1;
     }
 
     /** Renders the element. */
     #render() {
-        this.#header.textContent = this.getAttribute('content') || '';
+        this.#h1.textContent = this.getAttribute('content') || '';
         this.focus();
     }
 

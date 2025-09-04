@@ -46,4 +46,18 @@ export default class Counter {
             current += percent;
         });
     }
+
+    /** Maps through the counter based on percents with a callback.
+     *  @param {(key: string, i: number, current: number, percent: number) => any} callback - The callback to use.
+     *  @returns {any[]} The mapped items. */
+    mapEachPercent(callback) {
+        let current = 0;
+        const items = [];
+        Object.keys(this.#data).sort((a, b) => this.#data[b] - this.#data[a]).forEach((key, i) => {
+            const percent = (this.#data[key] / this.#total) * 100;
+            items.push(callback(key, i, current, percent));
+            current += percent;
+        });
+        return items;
+    }
 }

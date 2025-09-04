@@ -2,11 +2,22 @@
  *  @augments HTMLElement 
  *  @author bloopsoup */
 export default class SplashImage extends HTMLElement {
-    constructor() { super(); }
-    connectedCallback() { this.render(); }
+    /** @type {HTMLImageElement} */
+    #img
+
+    /** Create the element. */
+    constructor() {
+        super();
+
+        this.#img = this.#createImage();
+        this.appendChild(this.#img);
+    }
 
     /** @returns {string[]} The attributes. */
-    static get observedAttributes() { return ['src', 'hidden']; }
+    static get observedAttributes() { return ['src']; }
+
+    /** Callback that is ran on DOM insertion. */
+    connectedCallback() { this.#render(); }
 
     /** Callback that is ran when an attribute is changed.
      *  @param {string} name - The name. 
@@ -15,17 +26,21 @@ export default class SplashImage extends HTMLElement {
     attributeChangedCallback(name, oldValue, newValue) {
         if (!SplashImage.observedAttributes.includes(name)) return;
         if (oldValue === newValue) return;
-        this.render();
+        this.#render();
+    }
+
+    /** Creates an image element.
+     *  @returns {HTMLImageElement} The image element. */
+    #createImage() {
+        const img = document.createElement('img');
+        img.className = 'splash';
+        img.alt = '';
+        img.ariaHidden = 'true';
+        return img;
     }
 
     /** Renders the element. */
-    render() {
-        const src = this.getAttribute('src');
-        const hidden = this.getAttribute('hidden');
-        if (src === null) {this.innerHTML = ''; return;}
-
-        this.innerHTML = `<img class="splash" src="${src}" alt="" aria-hidden="true" ${hidden !== null ? 'style="display: none;"' : ''}>`;
-    }
+    #render() { this.#img.src = this.getAttribute('src') || ''; }
 }
 
 customElements.define('p-splash-image', SplashImage);
