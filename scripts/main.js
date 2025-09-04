@@ -68,7 +68,5 @@ export default class Main {
         statsSummary?.setAttribute('items', names.join(','));
         statsPie?.setAttribute('items', names.join(','));
         statsLineChart?.setAttribute('values', susValues.join(','));
-        statsLineChart?.setAttribute('min', '0');
-        statsLineChart?.setAttribute('max', '100');
     }
 }
