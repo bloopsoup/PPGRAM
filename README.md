@@ -18,4 +18,4 @@ PPGRAM could never come to life without the help of our amazing contributors!
 Thanks to `@git-doge` for creating the initial (now super defunct) prototype of PPGRAM and providing wonderful PPGRAM art!
 Their art can be found within `images/git-doge`.
 
-Thanks to `@qxbytes` for providing code to power the extremely important and vindicating sus meter.
+Thanks to `@qxbytes` for providing code to power the extremely important and vindicating sus meter and sus exchange.

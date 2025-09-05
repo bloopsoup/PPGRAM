@@ -1,5 +1,6 @@
 /** The line chart element.
- *  @augments HTMLElement */
+ *  @augments HTMLElement
+ *  @author qxbytes */
 export default class LineChart extends HTMLElement {
     /** @type {{left: number; right: number; top: number; bottom: number}} */
     #padding = { left: 40, right: 10, top: 10, bottom: 24 };
