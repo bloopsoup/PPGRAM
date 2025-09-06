@@ -23,7 +23,7 @@ export default class Main {
         if (pickedStatus) pickedStatus.textContent = 'victim';
         
         // Play audio
-        const songs = ["audio-lullaby", "audio-waken", "audio-relax"];
+        const songs = ['audio-lullaby', 'audio-waken', 'audio-fallen'];
         // @ts-ignore
         document.getElementById(Stacked.getRandomChoice(songs))?.play();
 
