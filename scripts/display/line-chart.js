@@ -13,7 +13,7 @@ export default class LineChart extends HTMLCanvasElement {
     constructor() { 
         super();
         this.ariaLabel = 'line chart';
-        this.className = 'line-chart';
+        this.classList.add('line-chart');
 
         this.#resizeObserver = new ResizeObserver(() => requestAnimationFrame(() => this.#render()));
 

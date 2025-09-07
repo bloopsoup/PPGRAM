@@ -12,6 +12,14 @@
     height: 100px;
 }
 
+#picked-name {
+    color: rgb(255, 202, 237);
+}
+
+#picked-date {
+    text-align: right;
+}
+
 #recent-image {
     width: 300px;
     min-width: 300px;

@@ -8,7 +8,7 @@ export default class PieChart extends HTMLElement {
     constructor() {
         super();
         this.ariaLabel = 'pie chart';
-        this.className = 'pie-chart';
+        this.classList.add('pie-chart');
     }
 
     /** @returns {string[]} The attributes. */
