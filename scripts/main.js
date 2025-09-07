@@ -20,8 +20,15 @@ export default class Main {
         document.querySelectorAll('main').forEach(element => element.removeAttribute('style'));
         document.querySelectorAll('footer').forEach(element => element.removeAttribute('style'));
         
-        // Play audio
-        this.#player.playRandomSong();
+        // Setup audio and add a listener
+        const introSong = document.getElementById('intro-song');
+        // @ts-ignore
+        if (introSong === null || introSong.value === '') this.#player.playRandomSong();
+        // @ts-ignore
+        else this.#player.playSong(introSong.value);
+        // @ts-ignore
+        introSong?.addEventListener('change', event => this.#player.playSong(event.target.value));
+
 
         // Run update once and then set an interval
         Main.#update();

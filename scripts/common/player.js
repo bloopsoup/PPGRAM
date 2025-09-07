@@ -36,6 +36,7 @@ export default class Player {
         audio.src = `audio/${song}.mp3`;
         audio.loop = true;
         audio.play();
+        this.#playing = audio;
     }
 
     /** PLays a random song. */

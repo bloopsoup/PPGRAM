@@ -26,8 +26,13 @@
     <p-splash-dialog content="PP" onkeydown="Main.handleEnter(event)" onclick="Main.run()" id="intro-dialog"></p-splash-dialog>
     
     <header style="display: none;">
-        <h1>PPGRAM%</h1>
-        <a href="https://github.com/bloopsoup/PPGRAM" target="_blank" style="text-align: right;">GITHUB</a>
+        <h1><a href="https://github.com/bloopsoup/PPGRAM" aria-label="github link" target="_blank">PPGRAM%</a></h1>
+        <select aria-label="song select" id="intro-song">
+            <option value="" selected>SONG?</option>
+            <option value="fallen">fallen</option>
+            <option value="lullaby">lullaby</option>
+            <option value="waken">waken</option>
+        </select>
     </header>
 
     <main style="display: none;">
