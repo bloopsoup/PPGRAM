@@ -4,16 +4,11 @@ import { Counter, Stacked } from '../common/index.js';
  *  @augments HTMLElement 
  *  @author bloopsoup */
 export default class PieChart extends HTMLElement {
-    /** @type {HTMLDivElement} */
-    #div
-
     /** Create the element. */
     constructor() {
         super();
-
-        this.#div = document.createElement('div');
-        this.#div.className = 'pie';
-        this.appendChild(this.#div);
+        this.className = 'pie';
+        this.ariaLabel = 'pie chart';
     }
 
     /** @returns {string[]} The attributes. */
@@ -46,8 +41,8 @@ export default class PieChart extends HTMLElement {
     #render() {
         const items = this.getAttribute('items');
         if (items === null) return;
-        this.#div.style.background = this.#createConicGradient(items.split(','));
+        this.style.background = this.#createConicGradient(items.split(','));
     }
 }
 
-customElements.define('p-pie-chart', PieChart);
+customElements.define('p-pie-chart', PieChart, { extends: 'figure' });

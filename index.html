@@ -33,7 +33,7 @@
     <main style="display: none;">
         <section aria-labelledby="picked-status">
             <div class="block">
-                <p-splash-image src="images/git-doge/time.png" class="floating" id="picked-image"></p-splash-image>
+                <img is="p-splash-image" src="images/git-doge/time.png" class="floating" id="picked-image">
                 <h2 id="picked-status">loading...</h2>
             </div>
             <h3 style="color: rgb(255, 202, 237);" class="floating" id="picked-name"></h3>
@@ -46,9 +46,9 @@
             <div class="row">
                 <div class="column">
                      <h2 id="stats-recent-header">previous victims</h2>
-                     <p-stats id="stats-recent"></p-stats>
+                     <ol is="p-stats" id="stats-recent"></ol>
                 </div>
-                <p-splash-image src="images/git-doge/book.png" class="floating" id="stats-image"></p-splash-image>
+                <img is="p-splash-image" src="images/git-doge/book.png" class="floating" id="stats-image">
             </div>
         </section>
     
@@ -58,21 +58,21 @@
             <div class="row">
                 <div class="column">
                     <h2 id="stats-summary-header">stats</h2>
-                    <p-stats class="floating" id="stats-summary" summarize></p-stats>
+                    <ol is="p-stats" summarize class="floating" id="stats-summary"></ol>
                 </div>  
-                <p-pie-chart class="floating" id="stats-pie"></pp-pie-chart>
+                <figure is="p-pie-chart" aria-describedby="stats-summary" class="floating" id="stats-pie"></figure>
             </div>
         </section>
 
         <hr>
 
-        <section aria-labelledby="stats-chart-header stats-chart-subheader">
+        <section aria-labelledby="stats-chart-header">
             <div class="row">
                 <div class="column">
-                    <h2 id="stats-chart-header">SUS</h2>
-                    <h3 id="stats-chart-subheader" class="floating">exchange</h3>
+                    <h2 id="stats-chart-header">sus exchange</h2>
+                    <p id="stats-chart-status">sus shares are at an all time low!</p>
                 </div>
-                <p-line-chart min="0" max="100" id="stats-line-chart"></p-line-chart>
+                <canvas is="p-line-chart" min="0" max="100" aria-describedby="stats-chart-status" class="floating" id="stats-line-chart"></canvas>
             </div>
         </section>
 
