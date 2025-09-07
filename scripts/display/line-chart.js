@@ -60,7 +60,7 @@ export default class LineChart extends HTMLElement {
     #drawNotice() {
         this.#context.save();
 
-        this.#context.font = '12px sans-serif';
+        this.#context.font = '12px Jost-Semibold';
         this.#context.fillStyle = '#888';
 
         this.#context.fillText('No data', 10, 20);
@@ -79,7 +79,7 @@ export default class LineChart extends HTMLElement {
 
         this.#context.save();
 
-        this.#context.font = '12px sans-serif';
+        this.#context.font = '12px Jost-Semibold';
         this.#context.lineWidth = 1;
         this.#context.fillStyle = 'rgba(255, 255, 255, 0.6)';
         this.#context.strokeStyle = 'rgba(255, 255, 255, 0.1)';
@@ -165,7 +165,6 @@ export default class LineChart extends HTMLElement {
         this.#context.setTransform(ratio, 0, 0, ratio, 0, 0);
 
         // Draw
-        this.#context.clearRect(0, 0, cssWidth, cssHeight);
         if (!values.length) { this.#drawNotice(); return; }
         this.#drawGrid(cssWidth, cssHeight, min, max);
         this.#drawPlotLine(cssWidth, cssHeight, min, max, values);
