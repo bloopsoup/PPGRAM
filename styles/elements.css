@@ -5,6 +5,11 @@
     color: white;
 }
 
+*:focus-visible {
+    outline: none;      
+    border: 2px dashed rgb(226, 183, 255);
+}
+
 hr {
     width: 100%;
     border: none;
@@ -25,7 +30,6 @@ h3 {
 }
 
 a {
-    width: 100%;
     font-family: 'Jost-SemiBold';
     font-size: 1.2rem;
 }
