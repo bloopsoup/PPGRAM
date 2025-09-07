@@ -29,7 +29,7 @@ export default class LineChart extends HTMLElement {
     
     /** Callback that is ran on DOM insertion. */
     connectedCallback() {
-        this.#resizeObserver.observe(this.#canvas);
+        this.#resizeObserver.observe(this);
         this.#render();
     }
 
