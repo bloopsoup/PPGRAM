@@ -1,0 +1,30 @@
+.line-chart {
+    display: block;
+}
+
+.pie-chart {
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background-image: conic-gradient(red 0% 100%);
+}
+
+.splash-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3;
+
+    width: 100svw;
+    height: 100svh;
+
+    background: linear-gradient(90deg, rgb(79, 26, 90) 0%, rgb(19, 12, 77) 100%);
+    cursor: pointer;
+}
+
+.splash-image {
+    display: block;
+    object-fit: contain;
+    
+    width: 100%;
+    height: 100%;
+}

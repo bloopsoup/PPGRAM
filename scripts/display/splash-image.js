@@ -6,7 +6,7 @@ export default class SplashImage extends HTMLImageElement {
     constructor() {
         super();
         this.draggable = false;
-        this.className = 'splash';
+        this.className = 'splash-image';
         this.alt = '';
         this.ariaHidden = 'true';
     }

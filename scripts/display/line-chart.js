@@ -13,9 +13,7 @@ export default class LineChart extends HTMLCanvasElement {
     constructor() { 
         super();
         this.ariaLabel = 'line chart';
-        this.style.width = '100%';
-        this.style.height = 'clamp(160px, 25vw, 400px)';
-        this.style.display = 'block';
+        this.className = 'line-chart';
 
         this.#resizeObserver = new ResizeObserver(() => requestAnimationFrame(() => this.#render()));
 
@@ -29,7 +27,7 @@ export default class LineChart extends HTMLCanvasElement {
     
     /** Callback that is ran on DOM insertion. */
     connectedCallback() {
-        this.#resizeObserver.observe(this);
+        if (this.parentElement) this.#resizeObserver.observe(this.parentElement);
         this.#render();
     }
 
@@ -81,7 +79,7 @@ export default class LineChart extends HTMLCanvasElement {
             this.#context.moveTo(this.#padding.left, y);
             this.#context.lineTo(width - this.#padding.right, y);
             this.#context.stroke();
-            this.#context.fillText(tick == max ? "jail" : String(tick), 6, y + 4);
+            this.#context.fillText("jail", 6, y + 4);
         }
 
         this.#context.restore();
