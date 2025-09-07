@@ -1,8 +1,5 @@
 .line-chart {
     display: block;
-    
-    width: 100%;
-    height: clamp(160px, 25vw, 400px);
 }
 
 .pie-chart {

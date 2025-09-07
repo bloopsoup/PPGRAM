@@ -14,7 +14,6 @@ export default class LineChart extends HTMLElement {
     /** Create the element. */
     constructor() { 
         super();
-        this.style.display = 'contents';
         this.#resizeObserver = new ResizeObserver(() => requestAnimationFrame(() => this.#render()));
 
         this.#canvas = this.#createCanvas();
@@ -56,6 +55,19 @@ export default class LineChart extends HTMLElement {
         return canvas;
     }
 
+    /** Resizes the canvas element; important that you don't control this with CSS. */
+    #resizeCanvas() {
+        const {width, height} = this.getBoundingClientRect();
+        const ratio = window.devicePixelRatio || 1;
+
+        this.#canvas.style.width = `${width}px`;
+        this.#canvas.style.height = `${height}px`;
+        this.#canvas.width = Math.floor(width * ratio);
+        this.#canvas.height = Math.floor(height * ratio);
+
+        this.#context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    }
+
     /** Draws a no data notice. */
     #drawNotice() {
         this.#context.save();
@@ -69,12 +81,10 @@ export default class LineChart extends HTMLElement {
     }
 
     /** Draws a grid.
-     *  @param {number} width - The width.
-     *  @param {number} height - The height.
      *  @param {number} min - The minimum value.
      *  @param {number} max - The max value. */
-    #drawGrid(width, height, min, max) {
-        const innerHeight = height - this.#padding.top - this.#padding.bottom;
+    #drawGrid(min, max) {
+        const innerHeight = this.#canvas.clientHeight - this.#padding.top - this.#padding.bottom;
         const ticks = [Math.round((min + max) / 2), Math.round((min + max) * .9), max];
 
         this.#context.save();
@@ -88,7 +98,7 @@ export default class LineChart extends HTMLElement {
             const y = this.#padding.top + (1 - (tick - min) / (max - min)) * innerHeight;
             this.#context.beginPath();
             this.#context.moveTo(this.#padding.left, y);
-            this.#context.lineTo(width - this.#padding.right, y);
+            this.#context.lineTo(this.#canvas.clientWidth - this.#padding.right, y);
             this.#context.stroke();
             this.#context.fillText("jail", 6, y + 4);
         }
@@ -97,14 +107,12 @@ export default class LineChart extends HTMLElement {
     }
 
     /** Draws a plotted line.
-     *  @param {number} width - The width.
-     *  @param {number} height - The height.
      *  @param {number} min - The minimum value.
      *  @param {number} max - The max value.
      *  @param {number[]} values - The values. */
-    #drawPlotLine(width, height, min, max, values) {
-        const innerWidth = width - this.#padding.left - this.#padding.right;
-        const innerHeight = height - this.#padding.top - this.#padding.bottom;
+    #drawPlotLine(min, max, values) {
+        const innerWidth = this.#canvas.clientWidth - this.#padding.left - this.#padding.right;
+        const innerHeight = this.#canvas.clientHeight - this.#padding.top - this.#padding.bottom;
 
         this.#context.save();
 
@@ -155,19 +163,11 @@ export default class LineChart extends HTMLElement {
         const min = minAttribute !== null ? parseFloat(minAttribute) : Math.min(...values, 0);
         const max = maxAttribute !== null ? parseFloat(maxAttribute) : Math.max(...values, 100);
 
-        const cssWidth = this.#canvas.clientWidth || (this.#canvas.parentElement?.clientWidth ?? 400);
-        const cssHeight = this.#canvas.clientHeight || parseInt(getComputedStyle(this.#canvas).height) || 160;
-        const ratio = window.devicePixelRatio || 1;
-
-        // Adjust the canvas
-        this.#canvas.width = Math.floor(cssWidth * ratio);
-        this.#canvas.height = Math.floor(cssHeight * ratio);
-        this.#context.setTransform(ratio, 0, 0, ratio, 0, 0);
-
         // Draw
+        this.#resizeCanvas();
         if (!values.length) { this.#drawNotice(); return; }
-        this.#drawGrid(cssWidth, cssHeight, min, max);
-        this.#drawPlotLine(cssWidth, cssHeight, min, max, values);
+        this.#drawGrid(min, max);
+        this.#drawPlotLine(min, max, values);
     }
 }
 
