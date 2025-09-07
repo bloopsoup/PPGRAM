@@ -11,16 +11,12 @@ export default class Main {
     /** Runs the page. */
     static run() {
         // @ts-ignore
-        document.getElementById('dialog')?.dismiss();
+        document.getElementById('intro-dialog')?.dismiss();
 
         // Display layout elements
         document.querySelectorAll('header').forEach(element => element.removeAttribute('style'));
         document.querySelectorAll('main').forEach(element => element.removeAttribute('style'));
         document.querySelectorAll('footer').forEach(element => element.removeAttribute('style'));
-
-        // Display static elements
-        const pickedStatus = document.getElementById('picked-status');
-        if (pickedStatus) pickedStatus.textContent = 'victim';
         
         // Play audio
         const songs = ['audio-lullaby', 'audio-waken', 'audio-fallen'];
@@ -57,15 +53,16 @@ export default class Main {
 
         // Display the elements
         const [pickedName, pickedDate] = [document.getElementById('picked-name'), document.getElementById('picked-date')];
-        const [statsRecent, statsSummaryHeader, statsSummary, statsPie, statsLineChart] = [document.getElementById('stats-recent'), document.getElementById('stats-summary-header'), document.getElementById('stats-summary'), document.getElementById('stats-pie'), document.getElementById('stats-line-chart')];
-
         if (pickedName) pickedName.textContent = chosenName;
         if (pickedDate) pickedDate.textContent = new Date().toLocaleString();
 
-        if (statsSummaryHeader) statsSummaryHeader.textContent = `stats (TOTAL ${names.length}) (SUS ${sus.toFixed(2)}%)`
-        statsRecent?.setAttribute('items', names.slice(1, 6).join(','));
-        statsSummary?.setAttribute('items', names.join(','));
-        statsPie?.setAttribute('items', names.join(','));
-        statsLineChart?.setAttribute('values', susValues.join(','));
+        document.getElementById('recent-list')?.setAttribute('items', names.slice(1, 6).join(','));
+
+        const [summaryHeader, summaryList, summaryPie] = [document.getElementById('summary-header'), document.getElementById('summary-list'), document.getElementById('summary-pie')];
+        if (summaryHeader) summaryHeader.textContent = `stats (TOTAL ${names.length}) (SUS ${sus.toFixed(2)}%)`
+        summaryList?.setAttribute('items', names.join(','));
+        summaryPie?.setAttribute('items', names.join(','));
+        
+        document.getElementById('exchange-line')?.setAttribute('values', susValues.join(','));
     }
 }

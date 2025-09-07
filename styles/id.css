@@ -1,3 +1,7 @@
+#intro-dialog {
+    background: linear-gradient(90deg, rgb(79, 26, 90) 0%, rgb(19, 12, 77) 100%);
+}
+
 #picked-image {
     position: absolute;
     z-index: 1;
@@ -8,19 +12,19 @@
     height: 100px;
 }
 
-#stats-line-chart {
-    width: 100%;
-    height: clamp(160px, 25vw, 400px);
-}
-
-#stats-image {
+#recent-image {
     width: 300px;
     min-width: 300px;
     height: 300px;
     min-height: 300px;
 }
 
-#stats-pie {
+#summary-pie {
     width: 15rem;
     min-width: 15rem;
+}
+
+#exchange-line {
+    width: 100%;
+    height: clamp(160px, 25vw, 400px);
 }
