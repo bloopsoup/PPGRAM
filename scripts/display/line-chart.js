@@ -54,6 +54,7 @@ export default class LineChart extends HTMLElement {
         canvas.style.width = '100%';
         canvas.style.height = 'clamp(160px, 25vw, 400px)';
         canvas.style.display = 'block';
+        canvas.ariaHidden = 'true';
         return canvas;
     }
 
