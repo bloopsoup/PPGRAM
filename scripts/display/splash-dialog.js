@@ -11,7 +11,7 @@ export default class SplashDialog extends HTMLElement {
         this.role = 'dialog';
         this.ariaModal = 'true';
         this.tabIndex = 0;
-        this.classList.add('column', 'splash-dialog');
+        this.classList.add('splash-dialog');
 
         this.#h1 = this.#createHeader();
         this.appendChild(this.#h1);

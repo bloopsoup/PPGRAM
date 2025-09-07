@@ -51,9 +51,7 @@ export default class LineChart extends HTMLElement {
      *  @returns {HTMLCanvasElement} The canvas element. */
     #createCanvas() {
         const canvas = document.createElement('canvas');
-        canvas.style.width = '100%';
-        canvas.style.height = 'clamp(160px, 25vw, 400px)';
-        canvas.style.display = 'block';
+        canvas.className = 'line-chart';
         canvas.ariaLabel = 'line chart';
         return canvas;
     }
