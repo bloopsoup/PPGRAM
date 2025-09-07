@@ -13,6 +13,7 @@ export default class SongPlayer extends HTMLElement {
     constructor() {
         super();
         this.style.display = 'contents';
+        this.setRandomSong = this.setRandomSong.bind(this);
 
         this.#playing = null;
         this.#select = this.#createSelect();
@@ -62,6 +63,7 @@ export default class SongPlayer extends HTMLElement {
     /** Stops the current song. */
     #stop() {
         if (this.#playing === null) return;
+        this.#playing.removeEventListener('ended', this.setRandomSong);
         this.#playing.pause();
         this.#playing.currentTime = 0;
         this.#playing.removeAttribute('src');
@@ -77,8 +79,8 @@ export default class SongPlayer extends HTMLElement {
         if (song === '') return;
 
         const audio = document.createElement('audio');
+        audio.addEventListener('ended', this.setRandomSong);
         audio.src = `audio/${song}.mp3`;
-        audio.loop = true;
         audio.play();
         this.#playing = audio;
     }
