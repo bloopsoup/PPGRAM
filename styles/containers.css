@@ -1,5 +1,5 @@
 :root {
-    --base-width: 80%;
+    --base-width: 80svw;
 }
 
 * {
@@ -13,7 +13,9 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
     width: var(--base-width);
+    min-height: 100svh;
 
     margin: 0 auto;
     background: linear-gradient(90deg, rgba(45, 5, 58, 1) 0%, rgba(9, 4, 54, 1) 100%);
@@ -24,13 +26,14 @@ header {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 100%;
+
+    width: 100svw;
 
     position: absolute;
     z-index: 2;
     top: 0;
 
-    padding: 15px calc((100% - var(--base-width)) / 2);
+    padding: 15px calc((100svw - var(--base-width)) / 2);
     border-bottom: 5px solid rgba(9, 4, 54, 1);
     background: linear-gradient(90deg, rgb(79, 26, 90) 0%, rgb(19, 12, 77) 100%);
     box-shadow: 0 4px 20px rgba(9, 4, 54, 1);
