@@ -1,9 +1,11 @@
-import { Calendar, Counter, Stacked } from './common/index.js';
+import { Calendar, Counter, Player, Stacked } from './common/index.js';
 import * as display from "./display/index.js";
 
 /** Picks victims in a totally fair and unbiased way.
  *  @author git-doge (initial version) and bloopsoup */
 export default class Main {
+    static #player = new Player(['lullaby', 'waken', 'fallen']);
+
     /** Handle a keyboard enter press.
      *  @param {KeyboardEvent} e - The keyboard event. */
     static handleEnter(e) { if (e.key === 'Enter') Main.run(); }
@@ -19,9 +21,7 @@ export default class Main {
         document.querySelectorAll('footer').forEach(element => element.removeAttribute('style'));
         
         // Play audio
-        const songs = ['audio-lullaby', 'audio-waken', 'audio-fallen'];
-        // @ts-ignore
-        document.getElementById(Stacked.getRandomChoice(songs))?.play();
+        this.#player.playRandomSong();
 
         // Run update once and then set an interval
         Main.#update();
