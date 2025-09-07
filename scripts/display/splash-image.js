@@ -1,14 +1,16 @@
 /** The splash image element.
- *  @augments HTMLImageElement 
+ *  @augments HTMLElement 
  *  @author bloopsoup */
-export default class SplashImage extends HTMLImageElement {
+export default class SplashImage extends HTMLElement {
+    /** @type {HTMLImageElement} */
+    #img
+
     /** Create the element. */
     constructor() {
         super();
-        this.draggable = false;
-        this.classList.add('splash-image');
-        this.alt = '';
-        this.ariaHidden = 'true';
+
+        this.#img = this.#createImage();
+        this.appendChild(this.#img);
     }
 
     /** @returns {string[]} The attributes. */
@@ -28,8 +30,19 @@ export default class SplashImage extends HTMLImageElement {
         this.#render();
     }
 
+    /** Creates an image element.
+     *  @returns {HTMLImageElement} The image element. */
+    #createImage() {
+        const img = document.createElement('img');
+        img.draggable = false;
+        img.className = 'splash-image';
+        img.alt = '';
+        img.ariaHidden = 'true';
+        return img;
+    }
+
     /** Renders the element. */
-    #render() { this.src = this.getAttribute('src') || ''; }
+    #render() { this.#img.src = this.getAttribute('src') || ''; }
 }
 
-customElements.define('p-splash-image', SplashImage, { extends: 'img' });
+customElements.define('p-splash-image', SplashImage);

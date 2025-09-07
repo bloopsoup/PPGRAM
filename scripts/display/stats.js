@@ -1,11 +1,19 @@
 import { Counter, Stacked } from '../common/index.js';
 
 /** The stats element.
- *  @augments HTMLOListElement 
+ *  @augments HTMLElement 
  *  @author bloopsoup */
-export default class Stats extends HTMLOListElement {
+export default class Stats extends HTMLElement {
+    /** @type {HTMLOListElement} */
+    #ol
+
     /** Create the element. */
-    constructor() { super(); }
+    constructor() {
+        super();
+
+        this.#ol = document.createElement('ol');
+        this.appendChild(this.#ol);
+    }
 
     /** @returns {string[]} The attributes. */
     static get observedAttributes() { return ['items', 'summarize']; }
@@ -53,8 +61,8 @@ export default class Stats extends HTMLOListElement {
         const items = this.getAttribute('items');
         const summarize = this.getAttribute('summarize');
         if (items === null) return;
-        this.replaceChildren(...(summarize !== null ? this.#createSummaryListItems(items.split(',')) : this.#createListItems(items.split(','))));
+        this.#ol.replaceChildren(...(summarize !== null ? this.#createSummaryListItems(items.split(',')) : this.#createListItems(items.split(','))));
     }
 }
 
-customElements.define('p-stats', Stats, { extends: 'ol' });
+customElements.define('p-stats', Stats);

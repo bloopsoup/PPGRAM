@@ -1,25 +1,27 @@
 /** The line chart element.
- *  @augments HTMLCanvasElement
+ *  @augments HTMLElement
  *  @author qxbytes */
-export default class LineChart extends HTMLCanvasElement {
+export default class LineChart extends HTMLElement {
     /** @type {{left: number; right: number; top: number; bottom: number}} */
     #padding = { left: 40, right: 10, top: 10, bottom: 24 };
     /** @type {ResizeObserver} */
     #resizeObserver
+    /** @type {HTMLCanvasElement} */
+    #canvas
     /** @type {CanvasRenderingContext2D} */
     #context
 
     /** Create the element. */
     constructor() { 
         super();
-        this.ariaLabel = 'line chart';
-        this.classList.add('line-chart');
-
+        this.style.display = 'contents';
         this.#resizeObserver = new ResizeObserver(() => requestAnimationFrame(() => this.#render()));
 
-        const context = this.getContext('2d');
+        this.#canvas = this.#createCanvas();
+        const context = this.#canvas.getContext('2d');
         if (context === null) throw new Error('Failed to get 2D canvas context.');
         else this.#context = context;
+        this.appendChild(this.#canvas);
     }
 
     /** @returns {string[]} The attributes. */
@@ -27,7 +29,7 @@ export default class LineChart extends HTMLCanvasElement {
     
     /** Callback that is ran on DOM insertion. */
     connectedCallback() {
-        if (this.parentElement) this.#resizeObserver.observe(this.parentElement);
+        this.#resizeObserver.observe(this.#canvas);
         this.#render();
     }
 
@@ -43,6 +45,17 @@ export default class LineChart extends HTMLCanvasElement {
         if (oldValue === newValue) return;
 
         this.#render();
+    }
+
+    /** Creates a canvas element.
+     *  @returns {HTMLCanvasElement} The canvas element. */
+    #createCanvas() {
+        const canvas = document.createElement('canvas');
+        canvas.style.width = '100%';
+        canvas.style.height = 'clamp(160px, 25vw, 400px)';
+        canvas.style.display = 'block';
+        canvas.ariaLabel = 'line chart';
+        return canvas;
     }
 
     /** Draws a no data notice. */
@@ -144,13 +157,13 @@ export default class LineChart extends HTMLCanvasElement {
         const min = minAttribute !== null ? parseFloat(minAttribute) : Math.min(...values, 0);
         const max = maxAttribute !== null ? parseFloat(maxAttribute) : Math.max(...values, 100);
 
-        const cssWidth = this.clientWidth || (this.parentElement?.clientWidth ?? 400);
-        const cssHeight = this.clientHeight || parseInt(getComputedStyle(this).height) || 160;
+        const cssWidth = this.#canvas.clientWidth || (this.#canvas.parentElement?.clientWidth ?? 400);
+        const cssHeight = this.#canvas.clientHeight || parseInt(getComputedStyle(this.#canvas).height) || 160;
         const ratio = window.devicePixelRatio || 1;
 
         // Adjust the canvas
-        this.width = Math.floor(cssWidth * ratio);
-        this.height = Math.floor(cssHeight * ratio);
+        this.#canvas.width = Math.floor(cssWidth * ratio);
+        this.#canvas.height = Math.floor(cssHeight * ratio);
         this.#context.setTransform(ratio, 0, 0, ratio, 0, 0);
 
         // Draw
@@ -161,4 +174,4 @@ export default class LineChart extends HTMLCanvasElement {
     }
 }
 
-customElements.define('p-line-chart', LineChart, { extends: 'canvas' });
+customElements.define('p-line-chart', LineChart);

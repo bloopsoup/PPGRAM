@@ -31,8 +31,3 @@
     width: 15rem;
     min-width: 15rem;
 }
-
-#exchange-line {
-    width: 100%;
-    height: clamp(160px, 25vw, 400px);
-}

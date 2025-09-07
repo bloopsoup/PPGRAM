@@ -38,7 +38,7 @@
         <!-- PICKED SECTION -->
         <section aria-labelledby="picked-header">
             <div class="block">
-                <img is="p-splash-image" src="images/git-doge/time.png" class="floating" id="picked-image">
+                <p-splash-image src="images/git-doge/time.png" class="floating" id="picked-image"></p-splash-image>
                 <h2 id="picked-header">victim</h2>
             </div>
             <h3 class="floating" id="picked-name"></h3>
@@ -52,9 +52,9 @@
             <div class="row">
                 <div class="column">
                      <h2 id="recent-header">previous victims</h2>
-                     <ol is="p-stats" id="recent-list"></ol>
+                     <p-stats id="recent-list"></p-stats>
                 </div>
-                <img is="p-splash-image" src="images/git-doge/book.png" class="floating" id="recent-image">
+                <p-splash-image src="images/git-doge/book.png" class="floating" id="recent-image"></p-splash-image>
             </div>
         </section>
     
@@ -65,9 +65,9 @@
             <div class="row">
                 <div class="column">
                     <h2 id="summary-header">stats</h2>
-                    <ol is="p-stats" summarize class="floating" id="summary-list"></ol>
+                    <p-stats summarize class="floating" id="summary-list"></p-stats>
                 </div>  
-                <figure is="p-pie-chart" aria-describedby="summary-list" class="floating" id="summary-pie"></figure>
+                <p-pie-chart aria-describedby="summary-list" class="floating" id="summary-pie"></p-pie-chart>
             </div>
         </section>
 
@@ -80,7 +80,7 @@
                     <h2 id="exchange-header">sus exchange</h2>
                     <p id="exchange-text">sus shares are at an all time low!</p>
                 </div>
-                <canvas is="p-line-chart" min="0" max="100" aria-describedby="exchange-text" id="exchange-line"></canvas>
+                <p-line-chart min="0" max="100" aria-describedby="exchange-text" id="exchange-line"></p-line-chart>
             </div>
         </section>
 
