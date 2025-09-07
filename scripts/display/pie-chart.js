@@ -13,7 +13,7 @@ export default class PieChart extends HTMLElement {
 
         this.#div = document.createElement('div');
         this.#div.ariaLabel = 'pie chart';
-        this.#div.classList.add('pie-chart');
+        this.#div.className = 'pie-chart';
         this.appendChild(this.#div);
     }
 
