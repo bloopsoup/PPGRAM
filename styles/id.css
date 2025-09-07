@@ -1,0 +1,26 @@
+#picked-image {
+    position: absolute;
+    z-index: 1;
+    right: 0px;
+    bottom: -25px;
+
+    width: 100px;
+    height: 100px;
+}
+
+#stats-line-chart {
+    width: 100%;
+    height: clamp(160px, 25vw, 400px);
+}
+
+#stats-image {
+    width: 300px;
+    min-width: 300px;
+    height: 300px;
+    min-height: 300px;
+}
+
+#stats-pie {
+    width: 15rem;
+    min-width: 15rem;
+}
