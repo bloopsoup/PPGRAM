@@ -96,8 +96,8 @@ export default class Stacked {
         const rgb = [];
         const rand = this.#sfc32(0x9E3779B9, 0x243F6A88, 0xB7E15162, seed);
         for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 15; j++) rand();
-            rgb.push(Math.floor(rand() * 255));
+            for (let j = 0; j < 10; j++) rand();
+            rgb.push(Math.floor(rand() * 205) + 50);
         }
         return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`; 
     }
