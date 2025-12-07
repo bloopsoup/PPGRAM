@@ -13,7 +13,10 @@ It is almost impossible to know.
 
 ## Acknowledgements
 
-PPGRAM could never come to life without the help of our amazing contributors!
+PPGRAM could never come to life without the help of our amazing contributors.
+
+Thanks to `@bloopsoup` for coding most of the current website and creating all of the wonderful background music!
+Music can be found within `audio`.
 
 Thanks to `@git-doge` for creating the initial (now super defunct) prototype of PPGRAM and providing wonderful PPGRAM art!
 Their art can be found within `images/git-doge`.
