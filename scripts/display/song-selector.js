@@ -4,9 +4,9 @@ import state from '../state/state.js';
  *  @augments HTMLElement */
 export default class SongSelector extends HTMLElement {
     /** @type {string[]} */
-    #allSongs
+    #managedSongs
     /** @type {Set<string>} */
-    #activeSongs
+    #selectedSongs
     /** @type {HTMLDivElement} */
     #container
     /** @type {Function} */
@@ -18,8 +18,8 @@ export default class SongSelector extends HTMLElement {
         this.style.display = 'contents';
         this.#currentSongHandler = (e) => this.#handleCurrentSongChanged(e);
 
-        this.#allSongs = [];
-        this.#activeSongs = new Set();
+        this.#managedSongs = [];
+        this.#selectedSongs = new Set();
         this.#container = this.#createContainer();
         this.appendChild(this.#container);
     }
@@ -70,9 +70,12 @@ export default class SongSelector extends HTMLElement {
         const songsAttribute = this.getAttribute('songs');
         if (!songsAttribute) return;
 
-        this.#allSongs = songsAttribute.split(',');
-        this.#activeSongs = new Set(this.#allSongs);
-        state.registerSongs(this.#allSongs);
+        this.#managedSongs = songsAttribute.split(',');
+        this.#selectedSongs = new Set(this.#managedSongs);
+        // also unselects songs that were deselected in storage
+        state.registerSongs(this.#managedSongs);
+        // sync with state's visible songs from all selectors and get ones we manage
+        this.#selectedSongs = new Set(state.visibleSongs.filter(song => this.#managedSongs.includes(song)));
         this.#render();
     }
 
@@ -94,7 +97,7 @@ export default class SongSelector extends HTMLElement {
         button.ariaLabel = `toggle ${song}`;
         button.dataset.song = song;
         button.addEventListener('click', () => this.#toggleSong(song));
-        if (!this.#activeSongs.has(song)) {
+        if (!this.#selectedSongs.has(song)) {
             button.classList.add('faded');
         }
         return button;
@@ -114,13 +117,13 @@ export default class SongSelector extends HTMLElement {
     /** Toggles a song's active state.
      *  @param {string} song - The song to toggle. */
     #toggleSong(song) {
-        const isActive = this.#activeSongs.has(song);
+        const isActive = this.#selectedSongs.has(song);
 
         if (isActive) {
-            this.#activeSongs.delete(song);
+            this.#selectedSongs.delete(song);
             state.toggleSongVisibility(song, false);
         } else {
-            this.#activeSongs.add(song);
+            this.#selectedSongs.add(song);
             state.toggleSongVisibility(song, true);
         }
 
@@ -131,12 +134,12 @@ export default class SongSelector extends HTMLElement {
      *  @param {string} song - The song whose button to update. */
     #updateButton(song) {
         const buttons = this.#container.querySelectorAll(`[data-song="${song}"]`);
-        buttons.forEach(button => this.#updateButtonStyle(button, this.#activeSongs.has(song)));
+        buttons.forEach(button => this.#updateButtonStyle(button, this.#selectedSongs.has(song)));
     }
 
     /** Renders the element. */
     #render() {
-        const buttons = this.#allSongs.map(song => this.#createSongButton(song));
+        const buttons = this.#managedSongs.map(song => this.#createSongButton(song));
         this.#container.replaceChildren(...buttons);
     }
 }

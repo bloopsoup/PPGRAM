@@ -40,6 +40,15 @@ class State {
             this.#allSongs.add(song);
             this.#visibleSongs.add(song);
         });
+
+        // deselect songs previously deselected
+        const deselected = this.#loadDeselectedSongs();
+        deselected.forEach(song => {
+            if (this.#allSongs.has(song)) {
+                this.#visibleSongs.delete(song);
+            }
+        });
+
         this.#dispatchVisibleSongsChanged();
     }
 
@@ -52,6 +61,7 @@ class State {
         } else {
             this.#visibleSongs.delete(song);
         }
+        this.#saveDeselectedSongs();
         this.#dispatchVisibleSongsChanged();
     }
 
@@ -60,6 +70,19 @@ class State {
     setCurrentSong(song) {
         this.#currentSong = song;
         this.#dispatchCurrentSongChanged();
+    }
+
+    /** Saves deselected songs to cookies. */
+    #saveDeselectedSongs() {
+        const deselected = this.allSongs.filter(song => !this.#visibleSongs.has(song));
+        document.cookie = `deselectedSongs=${JSON.stringify(deselected)}; path=/; max-age=31536000`;
+    }
+
+    /** Loads deselected songs from cookies.
+     *  @returns {string[]} Array of deselected song keys. */
+    #loadDeselectedSongs() {
+        const match = document.cookie.match(/deselectedSongs=([^;]+)/);
+        return match ? JSON.parse(decodeURIComponent(match[1])) : [];
     }
 
     /** Dispatches visible songs changed event. */
