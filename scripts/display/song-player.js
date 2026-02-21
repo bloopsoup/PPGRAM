@@ -1,4 +1,5 @@
 import { Stacked } from '../common/index.js';
+import state from '../state/state.js';
 
 /** The song player element.
  *  @augments HTMLElement
@@ -8,37 +9,59 @@ export default class SongPlayer extends HTMLElement {
     #playing
     /** @type {HTMLSelectElement} */
     #select
+    /** @type {Function} */
+    #visibleSongsHandler
+    /** @type {Function} */
+    #currentSongHandler
 
     /** Create the element. */
     constructor() {
         super();
         this.style.display = 'contents';
         this.setRandomSong = this.setRandomSong.bind(this);
+        this.#visibleSongsHandler = (e) => this.#handleVisibleSongsChanged(e);
+        this.#currentSongHandler = (e) => this.#handleCurrentSongChanged(e);
 
         this.#playing = null;
         this.#select = this.#createSelect();
         this.appendChild(this.#select);
     }
 
-    /** @returns {string[]} The attributes. */
-    static get observedAttributes() { return ['songs']; }
-
     /** Callback that is ran on DOM insertion. */
     connectedCallback() {
         // All songs being played should trigger this event handler
         this.#select.addEventListener('change', () => this.#play(this.#select.value));
+
+        // Subscribe to state events
+        window.addEventListener('stateVisibleSongsChanged', this.#visibleSongsHandler);
+        window.addEventListener('stateCurrentSongChanged', this.#currentSongHandler);
+
         this.#render();
     }
 
-    /** Callback that is ran when an attribute is changed.
-     *  @param {string} name - The name. 
-     *  @param {string} oldValue - The old value.
-     *  @param {string} newValue - The new value. */
-    attributeChangedCallback(name, oldValue, newValue) {
-        if (!SongPlayer.observedAttributes.includes(name)) return;
-        if (oldValue === newValue) return;
+    /** Callback that is ran on DOM removal. */
+    disconnectedCallback() {
+        window.removeEventListener('stateVisibleSongsChanged', this.#visibleSongsHandler);
+        window.removeEventListener('stateCurrentSongChanged', this.#currentSongHandler);
+    }
 
+    /** Handles visible songs changed event.
+     *  @param {CustomEvent} event - The event. */
+    #handleVisibleSongsChanged(event) {
         this.#render();
+    }
+
+    /** Handles current song changed event.
+     *  @param {CustomEvent} event - The event. */
+    #handleCurrentSongChanged(event) {
+        const { song } = event.detail;
+        const songs = [''].concat(state.visibleSongs);
+
+        if (songs.includes(song)) {
+            this.#select.value = song;
+        } else {
+            this.#select.value = '';
+        }
     }
 
     /** Creates a select element.
@@ -76,6 +99,7 @@ export default class SongPlayer extends HTMLElement {
      *  @param {string} song - The song to play. */
     #play(song) {
         this.#stop();
+        state.setCurrentSong(song);
         if (song === '') return;
 
         const audio = document.createElement('audio');
@@ -101,11 +125,16 @@ export default class SongPlayer extends HTMLElement {
 
     /** Renders the element. */
     #render() {
-        const songsAttribute = this.getAttribute('songs');
-        if (songsAttribute === null) return;
+        const currentSong = state.currentSong;
 
-        const songs = [''].concat(songsAttribute.split(','));
+        const songs = [''].concat(state.visibleSongs);
         this.#select.replaceChildren(...songs.map(this.#createOption));
+
+        if (songs.includes(currentSong)) {
+            this.#select.value = currentSong;
+        } else {
+            this.#select.value = '';
+        }
     }
 }
 

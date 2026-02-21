@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,9 +14,9 @@
     <link rel="stylesheet" type="text/css" href="styles/fonts.css">
     <link rel="stylesheet" type="text/css" href="styles/id.css">
     <link rel="stylesheet" type="text/css" href="styles/queries.css">
-    
+
     <link rel="icon" type="image/png" href="images/favicon.png">
-    
+
     <script type="module" defer>
         import Main from './scripts/main.js';
         window.Main = Main;
@@ -23,11 +24,12 @@
 </head>
 
 <body>
-    <p-splash-dialog content="PP" onkeydown="Main.handleEnter(event)" onclick="Main.run()" id="intro-dialog"></p-splash-dialog>
-    
+    <p-splash-dialog content="PP" onkeydown="Main.handleEnter(event)" onclick="Main.run()"
+        id="intro-dialog"></p-splash-dialog>
+
     <header style="display: none;">
         <h1><a href="https://github.com/bloopsoup/PPGRAM" aria-label="github link" target="_blank">PPGRAM%</a></h1>
-        <p-song-player songs="fallen,lullaby,cee,mint,rot,suim,away2,yune3,north,crawl,walk,incense,banjo,waken,relax,pin,clap,sol,lime,frame" id="intro-song"></p-song-player>
+        <p-song-player id="intro-song"></p-song-player>
     </header>
 
     <main style="display: none;">
@@ -43,17 +45,46 @@
 
         <hr>
 
+        <!-- SONGS SECTION -->
+        <section aria-labelledby="songs-header">
+            <div class="row">
+                <div class="column">
+                    <h2 id="songs-header">vol 1</h2>
+                    <h3>TRACKS</h3>
+                    <p-song-selector
+                        songs="fallen,lullaby,cee,mint,rot,suim,away2,yune3,north,crawl,walk,incense,banjo,waken,relax,pin,clap,sol,lime,frame"></p-song-selector>
+                </div>
+                <p-splash-image src="images/git-doge/pp.png" class="floating" id="recent-image"></p-splash-image>
+            </div>
+        </section>
+
+        <hr>
+
+        <section aria-labelledby="songs-header2">
+            <div class="row">
+                <div class="column">
+                    <h2 id="songs-header2">vol 2</h2>
+                    <h3>TRACKS</h3>
+                    <p-song-selector
+                        songs="waken1,relax1,cheese,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1"></p-song-selector>
+                </div>
+                <p-splash-image src="images/git-doge/pp.png" class="floating" id="recent-image"></p-splash-image>
+            </div>
+        </section>
+
+        <hr>
+
         <!-- RECENT SECTION -->
         <section aria-labelledby="recent-header">
             <div class="row">
                 <div class="column">
-                     <h2 id="recent-header">previous victims</h2>
-                     <p-stats id="recent-list"></p-stats>
+                    <h2 id="recent-header">previous victims</h2>
+                    <p-stats id="recent-list"></p-stats>
                 </div>
                 <p-splash-image src="images/git-doge/book.png" class="floating" id="recent-image"></p-splash-image>
             </div>
         </section>
-    
+
         <hr>
 
         <!-- SUMMARY SECTION -->
@@ -62,7 +93,7 @@
                 <div class="column">
                     <h2 id="summary-header">stats</h2>
                     <p-stats summarize class="floating" id="summary-list"></p-stats>
-                </div>  
+                </div>
                 <p-pie-chart class="rotating" id="summary-pie"></p-pie-chart>
             </div>
         </section>
@@ -73,8 +104,8 @@
         <section aria-labelledby="exchange-header">
             <div class="row">
                 <div class="column">
-                    <h2 id="exchange-header">sus exchange</h2>
-                    <p id="exchange-text">sus shares are at an all time low!</p>
+                    <h2 id="exchange-header">SUS exchange</h2>
+                    <p id="exchange-text">the authorities have been notified.</p>
                 </div>
                 <p-line-chart min="0" max="100" id="exchange-line"></p-line-chart>
             </div>
@@ -82,9 +113,10 @@
 
         <hr>
     </main>
-    
+
     <footer style="display: none;">
         <p>By using this website, you agree that POOPSICLE rigged the algorithm.</p>
     </footer>
 </body>
+
 </html>
