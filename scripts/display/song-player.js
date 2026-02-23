@@ -91,6 +91,7 @@ export default class SongPlayer extends HTMLElement {
 
         // Reconcile audio element state
         if (this.#playing === null) this.#play(this.#manager.currentSong);
+        else if (this.#playing.ended) this.#play(this.#manager.currentSong);
         else if (this.#playing.src.split('/').at(-1) !== `${this.#manager.currentSong}.mp3`) this.#play(this.#manager.currentSong);
         
         // Render the select element
