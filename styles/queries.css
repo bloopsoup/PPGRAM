@@ -7,18 +7,18 @@
         flex-direction: row;
     }
 
+    .side-image {
+        width: 500px;
+        min-width: 500px;
+        height: 500px;
+        min-height: 500px;
+    }
+
     #picked-image {
         bottom: -70px;
 
         width: 250px;
         height: 250px;
-    }
-
-    #recent-image {
-        width: 500px;
-        min-width: 500px;
-        height: 500px;
-        min-height: 500px;
     }
 
     #summary-pie {

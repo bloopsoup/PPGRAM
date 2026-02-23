@@ -48,3 +48,10 @@ option {
     background-color: #24103d;
     font-size: 1.2rem;
 }
+
+.side-image {
+    width: 300px;
+    min-width: 300px;
+    height: 300px;
+    min-height: 300px;
+}

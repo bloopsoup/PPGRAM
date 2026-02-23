@@ -24,8 +24,7 @@
 </head>
 
 <body>
-    <p-splash-dialog content="PP" onkeydown="Main.handleEnter(event)" onclick="Main.run()"
-        id="intro-dialog"></p-splash-dialog>
+    <p-splash-dialog content="PP" onkeydown="Main.handleEnter(event)" onclick="Main.run()" id="intro-dialog"></p-splash-dialog>
 
     <header style="display: none;">
         <h1><a href="https://github.com/bloopsoup/PPGRAM" aria-label="github link" target="_blank">PPGRAM%</a></h1>
@@ -46,29 +45,27 @@
         <hr>
 
         <!-- SONGS SECTION -->
-        <section aria-labelledby="songs-header">
+        <section aria-labelledby="vol1-header">
             <div class="row">
                 <div class="column">
-                    <h2 id="songs-header">vol 1</h2>
+                    <h2 id="vol1-header">vol 1</h2>
                     <h3>TRACKS</h3>
-                    <p-song-selector
-                        songs="fallen,lullaby,cee,mint,rot,suim,away2,yune3,north,crawl,walk,incense,banjo,waken,relax,pin,clap,sol,lime,frame"></p-song-selector>
+                    <p-song-selector choices="fallen,lullaby,cee,mint,rot,suim,away2,yune3,north,crawl,walk,incense,banjo,waken,relax,pin,clap,sol,lime,frame" id="vol1"></p-song-selector>
                 </div>
-                <p-splash-image src="images/git-doge/pp.png" class="floating" id="recent-image"></p-splash-image>
+                <p-splash-image src="images/git-doge/pp.png" class="floating side-image"></p-splash-image>
             </div>
         </section>
 
         <hr>
 
-        <section aria-labelledby="songs-header2">
+        <section aria-labelledby="vol2-header">
             <div class="row">
                 <div class="column">
-                    <h2 id="songs-header2">vol 2</h2>
+                    <h2 id="vol2-header">vol 2</h2>
                     <h3>TRACKS</h3>
-                    <p-song-selector
-                        songs="waken1,relax1,cheese,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1"></p-song-selector>
+                    <p-song-selector choices="waken1,relax1,cheese,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1,relax1" id="vol2"></p-song-selector>
                 </div>
-                <p-splash-image src="images/git-doge/pp.png" class="floating" id="recent-image"></p-splash-image>
+                <p-splash-image src="images/git-doge/pp.png" class="floating side-image"></p-splash-image>
             </div>
         </section>
 
@@ -81,7 +78,7 @@
                     <h2 id="recent-header">previous victims</h2>
                     <p-stats id="recent-list"></p-stats>
                 </div>
-                <p-splash-image src="images/git-doge/book.png" class="floating" id="recent-image"></p-splash-image>
+                <p-splash-image src="images/git-doge/book.png" class="floating side-image"></p-splash-image>
             </div>
         </section>
 

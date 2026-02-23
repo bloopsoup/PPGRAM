@@ -1,8 +1,10 @@
 import { Calendar, Counter, Stacked } from './common/index.js';
 import * as display from "./display/index.js";
+import { SongManager } from "./managers/index.js";
 
 /** Picks victims in a totally fair and unbiased way.
- *  @author git-doge (initial version) and bloopsoup */
+ *  @author git-doge (initial version)
+ *  @author bloopsoup */
 export default class Main {
     /** Handle a keyboard enter press.
      *  @param {KeyboardEvent} e - The keyboard event. */
@@ -17,9 +19,40 @@ export default class Main {
         document.querySelectorAll('header').forEach(element => element.removeAttribute('style'));
         document.querySelectorAll('main').forEach(element => element.removeAttribute('style'));
         document.querySelectorAll('footer').forEach(element => element.removeAttribute('style'));
-        
+
+        // Wire the songs together
+        const manager = new SongManager([
+            'fallen',
+            'lullaby',
+            'cee',
+            'mint',
+            'rot',
+            'suim',
+            'away2',
+            'yune3',
+            'north',
+            'crawl',
+            'walk',
+            'incense',
+            'banjo',
+            'waken',
+            'relax',
+            'pin',
+            'clap',
+            'sol',
+            'lime',
+            'frame',
+            'waken1',
+            'relax1',
+            'cheese'
+        ]);
         // @ts-ignore
-        document.getElementById('intro-song')?.setRandomSong();
+        document.getElementById('intro-song')?.link(manager);
+        // @ts-ignore
+        document.getElementById('vol1')?.link(manager);
+        // @ts-ignore
+        document.getElementById('vol2')?.link(manager);
+        manager.setRandomSong();
 
         // Run update once and then set an interval
         Main.#update();

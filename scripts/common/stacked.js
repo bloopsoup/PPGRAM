@@ -1,5 +1,7 @@
 /** Seeded RNG management.
- *  @author git-doge (initial version), qxbytes (sus meter), and bloopsoup */
+ *  @author git-doge (initial version)
+ *  @author qxbytes (sus meter)
+ *  @author bloopsoup */
 export default class Stacked {
     /** Magic black box math to make good random stuff.
      *  {@link https://stackoverflow.com/questions/521295/seeding-the-random-number-generator-in-javascript StackOverflow}
