@@ -44,7 +44,8 @@ export default class Main {
             'frame',
             'waken1',
             'relax1',
-            'cheese'
+            'cheese',
+            'wound'
         ]);
         // @ts-ignore
         document.getElementById('intro-song')?.link(manager);
