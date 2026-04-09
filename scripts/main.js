@@ -47,12 +47,18 @@ export default class Main {
             'cheese',
             'wound'
         ]);
-        // @ts-ignore
-        document.getElementById('intro-song')?.link(manager);
-        // @ts-ignore
-        document.getElementById('vol1')?.link(manager);
-        // @ts-ignore
-        document.getElementById('vol2')?.link(manager);
+        const elementIDs = [
+            'intro-song',
+            'peace-album',
+            'up-album',
+            'classic-album',
+            'discount-album'
+        ];
+
+        for (const elementID of elementIDs) {
+            // @ts-ignore
+            document.getElementById(elementID)?.link(manager);
+        }
         manager.setRandomSong();
 
         // Run update once and then set an interval
