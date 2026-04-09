@@ -45,7 +45,10 @@ export default class Main {
             'waken1',
             'relax1',
             'cheese',
-            'wound'
+            'wound',
+            'crash',
+            'hello',
+            'yikes'
         ]);
         const elementIDs = [
             'intro-song',
