@@ -44,7 +44,7 @@ export default class Main {
             'frame',
             'waken1',
             'relax1',
-            'cheese',
+            'reach',
             'wound',
             'crash',
             'hello',
