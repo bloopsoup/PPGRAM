@@ -27,10 +27,10 @@ header {
     justify-content: center;
     align-items: center;
 
-    width: 100svw;
-
     position: absolute;
     z-index: 2;
+    left: 0;
+    right: 0;
     top: 0;
 
     padding: 15px calc((100svw - var(--base-width)) / 2);

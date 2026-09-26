@@ -6,7 +6,7 @@
 }
 
 *:focus-visible {
-    outline: none;      
+    outline: none;
     border: 2px dashed rgb(226, 183, 255);
 }
 
@@ -17,7 +17,9 @@ hr {
     box-shadow: 0 0 20px rgb(150, 69, 243);
 }
 
-h1, h2, a {
+h1,
+h2,
+a {
     width: 100%;
     font-family: 'Jost-SemiBold';
     font-size: 1.5rem;
@@ -29,7 +31,8 @@ h3 {
     text-shadow: 0 0 20px rgba(53, 9, 211, 0.466);
 }
 
-p, li {
+p,
+li {
     width: 100%;
     font-size: 1.5rem;
 }
@@ -39,7 +42,7 @@ select {
     border: 1px solid rgb(88, 33, 150);
     border-radius: 5px;
     padding: 0 10px 0 10px;
-    
+
     font-family: 'Jost-SemiBold';
     font-size: 1.2rem;
 }

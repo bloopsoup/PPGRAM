@@ -13,7 +13,7 @@ export default class PieChart extends HTMLElement {
 
         this.#figure = document.createElement('figure');
         this.#figure.ariaLabel = 'pie chart';
-        this.#figure.className = 'pie-chart';
+        this.#figure.className = 'pie-chart rotating';
         this.appendChild(this.#figure);
     }
 

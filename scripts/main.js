@@ -51,7 +51,7 @@ export default class Main {
             'yikes'
         ]);
         const elementIDs = [
-            'intro-song',
+            'song-controls',
             'peace-album',
             'up-album',
             'classic-album',

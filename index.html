@@ -28,7 +28,6 @@
 
     <header style="display: none;">
         <h1><a href="https://github.com/bloopsoup/PPGRAM" aria-label="github link" target="_blank">PPGRAM%</a></h1>
-        <p-song-player id="intro-song"></p-song-player>
     </header>
 
     <main style="display: none;">
@@ -46,7 +45,7 @@
 
         <!-- SONGS SECTION -->
         <section aria-labelledby="peace-album-header">
-            <div class="row">
+            <div class="row album-row">
                 <div class="column">
                     <h2 id="peace-album-header">PEACE</h2>
                     <h3>TRACKS</h3>
@@ -59,7 +58,7 @@
         <hr>
 
         <section aria-labelledby="up-album-header">
-            <div class="row">
+            <div class="row album-row">
                 <div class="column">
                     <h2 id="up-album-header">/\/\/\</h2>
                     <h3>TRACKS</h3>
@@ -72,7 +71,7 @@
         <hr>
 
         <section aria-labelledby="classic-album-header">
-            <div class="row">
+            <div class="row album-row">
                 <div class="column">
                     <h2 id="classic-album-header">cLASSIc</h2>
                     <h3>TRACKS</h3>
@@ -85,7 +84,7 @@
         <hr>
 
         <section aria-labelledby="discount-album-header">
-            <div class="row">
+            <div class="row album-row">
                 <div class="column">
                     <h2 id="discount-album-header">disCOUNT</h2>
                     <h3>TRACKS</h3>
@@ -117,7 +116,7 @@
                     <h2 id="summary-header">stats</h2>
                     <p-stats summarize class="floating" id="summary-list"></p-stats>
                 </div>
-                <p-pie-chart class="rotating" id="summary-pie"></p-pie-chart>
+                <p-pie-chart id="summary-pie"></p-pie-chart>
             </div>
         </section>
 
@@ -139,6 +138,7 @@
 
     <footer style="display: none;">
         <p>By using this website, you agree that POOPSICLE rigged the algorithm.</p>
+        <p-song-controls id="song-controls"></p-song-controls>
     </footer>
 </body>
 

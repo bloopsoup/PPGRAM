@@ -26,8 +26,9 @@
 }
 
 #exchange-line {
-    width: 300px;
-    min-width: 300px;
+    display: block;
+    width: min(300px, 100%);
+    min-width: 0;
     height: 300px;
     min-height: 300px;
 }

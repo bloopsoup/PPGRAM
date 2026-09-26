@@ -8,7 +8,7 @@ export default class SongSelector extends HTMLElement {
     #manager
     /** @type {string[]} */
     #choices
-    /** @type {HTMLButtonElement[]} */
+    /** @type {HTMLDivElement[]} */
     #buttons
     /** @type {HTMLDivElement} */
     #container
@@ -41,7 +41,11 @@ export default class SongSelector extends HTMLElement {
         this.render();
     }
 
-    /** Toggles a song through the manager. 
+    /** Plays a song through the manager.
+     *  @param {string} song - The song. */
+    #playSong(song) { this.#manager?.playSong(song); }
+
+    /** Toggles a song through the manager.
      *  @param {string} song - The song. */
     #toggleSong(song) { this.#manager?.toggle(song); }
 
@@ -55,13 +59,22 @@ export default class SongSelector extends HTMLElement {
 
     /** Creates a button element.
      *  @param {string} choice - The choice.
-     *  @returns {HTMLButtonElement} The button element. */
+     *  @returns {HTMLDivElement} The button element. */
     #createButton(choice) {
-        const button = document.createElement('button');
+        const button = document.createElement('div');
         button.className = 'song-selector-button';
-        button.innerText = choice;
-        button.ariaLabel = `toggle ${choice}`;
-        button.addEventListener('click', () => this.#toggleSong(choice));
+        const label = document.createElement('button');
+        label.className = 'song-selector-label';
+        label.innerText = choice;
+        label.title = choice;
+        label.ariaLabel = `play ${choice}`;
+        label.addEventListener('click', () => this.#playSong(choice));
+
+        const action = document.createElement('button');
+        action.className = 'song-selector-action';
+        action.addEventListener('click', () => this.#toggleSong(choice));
+
+        button.append(label, action);
         return button;
     }
 
@@ -87,11 +100,21 @@ export default class SongSelector extends HTMLElement {
 
         // Update the styles per button element
         for (const button of this.#buttons) {
-            if (this.#manager.isEnabled(button.innerText)) button.style.opacity = '1';
-            else button.style.opacity = '0.3';
+            const label = button.querySelector('.song-selector-label');
+            const song = label?.textContent;
+            const action = button.querySelector('.song-selector-action');
+            const isEnabled = song !== null && this.#manager.isEnabled(song);
+            button.classList.toggle('faded', !isEnabled);
+            if (action) {
+                action.innerText = isEnabled ? '−' : '+';
+                action.ariaLabel = isEnabled
+                    ? `remove ${song} from rotation`
+                    : `add ${song} to rotation`;
+            }
 
-            button.classList.remove('glow');
-            if (this.#manager.currentSong === button.innerText) button.classList.add('glow');
+            const isPlaying = this.#manager.currentSong === song;
+            button.classList.toggle('playing', isPlaying);
+            label?.classList.toggle('glow', isPlaying);
         }
     }
 }

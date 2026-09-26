@@ -7,6 +7,14 @@
         flex-direction: row;
     }
 
+    .album-row {
+        align-items: flex-start;
+    }
+
+    .album-row > .side-image {
+        margin-top: calc(40px + 3.8rem);
+    }
+
     .side-image {
         width: 500px;
         min-width: 500px;
@@ -27,8 +35,8 @@
     }
 
     #exchange-line {
-        width: 600px;
-        min-width: 600px;
+        width: min(600px, 100%);
+        min-width: 0;
         height: 400px;
         min-height: 400px;
     }

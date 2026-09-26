@@ -12,6 +12,8 @@ export default class SongManager {
     #enabledSongs
     /** @type {string} */
     #currentSong
+    /** @type {HTMLAudioElement} */
+    #playing
 
     /** Create the state manager.
      *  @param {string[]} songs - The songs. */
@@ -20,6 +22,13 @@ export default class SongManager {
         this.#songs = new Set(songs);
         this.#enabledSongs = new Set();
         this.#currentSong = '';
+        this.#playing = document.createElement('audio');
+        this.#playing.preload = 'auto';
+        this.#playing.addEventListener('ended', () => this.setRandomSong());
+        this.#playing.addEventListener('error', () => {
+            console.error(`Unable to load song: ${this.#currentSong}`, this.#playing.error);
+        });
+        document.body.appendChild(this.#playing);
 
         // Load previous settings
         const disabledSongs = this.#load();
@@ -34,6 +43,15 @@ export default class SongManager {
 
     /** @returns {string} Current song. */
     get currentSong() { return this.#currentSong; }
+
+    /** @returns {boolean} Whether audio is currently playing. */
+    get isPlaying() { return this.#currentSong !== '' && !this.#playing.paused && !this.#playing.ended; }
+
+    /** @returns {number} Current playback position in seconds. */
+    get currentTime() { return Number.isFinite(this.#playing.currentTime) ? this.#playing.currentTime : 0; }
+
+    /** @returns {number} Current song duration in seconds. */
+    get duration() { return Number.isFinite(this.#playing.duration) ? this.#playing.duration : 0; }
 
     /** @param {string} song - The song to set as current. */
     set currentSong(song) {
@@ -63,11 +81,53 @@ export default class SongManager {
     /** Broadcasts an update to the registered callbacks. */
     broadcast() { this.#callbacks.forEach(callback => callback());}
 
+    /** Plays a selected song without changing its pool membership.
+     *  @param {string} song - The song. */
+    async playSong(song) {
+        if (!this.#songs.has(song)) return;
+
+        this.#playing.pause();
+        this.#currentSong = song;
+        this.broadcast();
+
+        this.#playing.src = `audio/${song}.mp3`;
+
+        try {
+            await this.#playing.play();
+        } catch (error) {
+            if (this.#currentSong !== song) return;
+            console.error(`Unable to play song: ${song}`, error);
+        }
+    }
+
+    /** Pauses or resumes the current song. */
+    async togglePlayback() {
+        if (this.#currentSong === '') {
+            this.setRandomSong();
+            return;
+        }
+
+        if (!this.#playing.paused) {
+            this.#playing.pause();
+            this.broadcast();
+            return;
+        }
+
+        try {
+            await this.#playing.play();
+        } catch (error) {
+            console.error(`Unable to resume song: ${this.#currentSong}`, error);
+        }
+        this.broadcast();
+    }
+
     /** Sets a random song. */
     setRandomSong() {
-        if (this.#enabledSongs.size > 0) this.#currentSong = Stacked.getRandomChoice(Array.from(this.#enabledSongs));
-        
-        this.broadcast();
+        if (this.#enabledSongs.size > 0) {
+            let songs = Array.from(this.#enabledSongs);
+            if (songs.length > 1) songs = songs.filter(song => song !== this.#currentSong);
+            this.playSong(Stacked.getRandomChoice(songs));
+        }
     }
 
     /** Checks if a song is enabled.
@@ -81,11 +141,21 @@ export default class SongManager {
         if (!this.#songs.has(song)) return;
 
         if (this.#enabledSongs.has(song)) {
-            if (this.#currentSong === song) this.#currentSong = '';
+            if (this.#currentSong === song) {
+                this.#currentSong = '';
+                this.#stop();
+            }
             this.#enabledSongs.delete(song);
         } else this.#enabledSongs.add(song);
 
         this.#save();
         this.broadcast();
+    }
+
+    /** Stops the current song. */
+    #stop() {
+        this.#playing.pause();
+        this.#playing.removeAttribute('src');
+        this.#playing.load();
     }
 }
